@@ -1,0 +1,46 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity Page {
+  *id : serial
+  --
+  *title : varchar
+  *type_id : serial
+  *modified_info_id : serial
+  icon_path : varchar
+}
+
+entity PageItem {
+    *id : serial
+    --
+    *page_id : serial
+    text: varchar
+    order: int
+    image_path: varchar
+}
+
+entity PageType {
+    *id : serial
+    --
+    *name : varchar
+}
+
+entity ModifiedInfo {
+    *id : serial
+    --
+    *modifier_name : varchar
+    created_at: date
+    modified_at: date
+    deleted_at: date
+}
+
+Page ||..o{ PageItem
+Page ||..|| ModifiedInfo
+Page ||..|| PageType
+
+@enduml

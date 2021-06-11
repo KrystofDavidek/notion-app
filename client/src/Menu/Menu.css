@@ -1,0 +1,9 @@
+.Menu {
+    display: flex;
+    flex-direction: column;
+    background-color: #A0E494;
+}
+
+.Menu__Input {
+    border: none;
+}

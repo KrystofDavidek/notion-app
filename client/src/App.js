@@ -7,14 +7,8 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-        <div className="row">
-            <div className="col">
-                <Menu/>
-            </div>
-            <div className="col">
-                <Content/>
-            </div>
-        </div>
+        <Menu/>
+        <Page/>
       </div>
     </div>
   );

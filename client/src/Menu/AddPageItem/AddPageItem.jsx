@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-export default function AddPageItem() {
+export default function AddPageItem( {addPageItem} ) {
     const [newPageName, setNewPageName] = useState("");
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
         alert(`Submitting Name ${newPageName}`)
+        addPageItem(newPageName)
     }
 
     return (

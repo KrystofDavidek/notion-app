@@ -1,0 +1,38 @@
+.page-item{
+    background-color: #D8EDD4;
+    height: 3em;
+    width: auto;
+    margin: 0 3em 1em 1em;
+    border: black solid 0.1em;
+    border-radius: 0.5em;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+.page-item__title{
+    margin-left: 1em;
+}
+
+.page-item{
+    transition: all 250ms;
+}
+
+/*
+Animations
+ */
+
+.page-item:hover {
+    transform: scale(1.1);
+    animation: glow 0.5s ease-in forwards;
+}
+
+@keyframes glow {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: white;
+    }
+}

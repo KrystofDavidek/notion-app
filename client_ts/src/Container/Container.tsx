@@ -1,15 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import Page from '../Page/Page';
-import {Menu} from '../Menu/Menu';
-import {PageData} from "../Page/Page";
-import './Container.css';
+import Menu from '../Menu/Menu';
+import './Container.css'
 
-function fetchData():Promise<PageData[]> {
-    // @ts-ignore
+const fetchData = () => {
     return axios.get("/get-pages")
     .then((res) => {
-        const result:PageData[] = res.data
+        const result = res.data
         // console.log(result);
         return result
     })
@@ -19,7 +17,7 @@ function fetchData():Promise<PageData[]> {
 }
 
 export default function Container() {
-    const [pages, setPages] = useState<PageData[]>([]);
+    const [pages, setPages] = useState([]);
 
     useEffect(() => {
         fetchData().then(pages => {

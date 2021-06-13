@@ -10,16 +10,14 @@ export const AddPageItem: React.FC<{addPageItem: any}> = ( {addPageItem} ) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                <input
-                    className="Menu__Input"
-                    type="text"
-                    placeholder="New page"
-                    value={newPageName}
-                    onChange={e => setNewPageName(e.target.value)} />
-            </label>
-            <input type="submit" value="Submit" />
+        <form className="menu__new-page" aria-label="New page" onSubmit={handleSubmit}>
+            <input
+                className="menu__input"
+                type="text"
+                placeholder="New page name"
+                value={newPageName}
+                onChange={e => setNewPageName(e.target.value)} />
+            <input className="menu__submit" aria-label="Add new page" type="submit" value="Add new page" />
         </form>
     )
 }

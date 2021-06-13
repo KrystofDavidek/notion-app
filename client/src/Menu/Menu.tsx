@@ -11,9 +11,14 @@ export const Menu: React.FC<{pages: PageData[]}> = ({ pages }) => {
     }
 
     return (
-        <div className="Menu">
+        <nav className="menu">
+            <h1 className="menu__header">
+                <img alt="Page icon"
+                     className="menu__page-icon" src="/client/src/assets/page-school.svg"/>
+                Notes X
+            </h1>
             <PagesList pages={pages}/>
             <AddPageItem addPageItem={addPageItem}/>
-        </div>
+        </nav>
     )
 }

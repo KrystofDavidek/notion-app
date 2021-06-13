@@ -9,7 +9,7 @@ function fetchData():Promise<PageData[]> {
     return axios.get("/get-pages")
     .then((res) => {
         const result:PageData[] = res.data
-        console.log(result);
+        // console.log(result);
         return result
     })
     .catch((err) => {

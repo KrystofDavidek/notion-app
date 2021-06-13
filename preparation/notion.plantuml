@@ -1,46 +1,74 @@
 @startuml
 
-' hide the spot
-hide circle
+title Entity Relationship Diagram
 
-' avoid problems with angled crows feet
-skinparam linetype ortho
+entity User {
+    id: serial
+    username: varchar
+    email: varchar
+    password: varchar
+    role: int
+    created_at: datetime
+    modified_at: datetime
+    deleted_at: datetime
+}
 
 entity Page {
-  *id : serial
-  --
-  *title : varchar
-  *type_id : serial
-  *modified_info_id : serial
-  icon_path : varchar
+    id: serial
+    user_id: integer
+    title: varchar
+    list_page_type: bool
+    checkboxes: bool
+    icon_path: varchar
+    created_at: datetime
+    modified_at: datetime
+    deleted_at: datetime
 }
 
-entity PageItem {
-    *id : serial
-    --
-    *page_id : serial
+entity BoardLabel {
+    id: serial
     text: varchar
+    page_id: integer
     order: int
-    image_path: varchar
+    created_at: datetime
+    modified_at: datetime
+    deleted_at: datetime
 }
 
-entity PageType {
-    *id : serial
-    --
-    *name : varchar
+entity Note {
+    id: serial
+    text: varchar
+    media_id: integer
+    page_id: integer
+    board_label_id: integer
+    order: int
+    done: bool
+    created_at: datetime
+    modified_at: datetime
+    deleted_at: datetime
 }
 
-entity ModifiedInfo {
-    *id : serial
-    --
-    *modifier_name : varchar
-    created_at: date
-    modified_at: date
-    deleted_at: date
+
+entity Media {
+    id: serial
+    name: varchar
+    path_to_file: varchar
+    created_at: datetime
+    deleted_at: datetime
 }
 
-Page ||..o{ PageItem
-Page ||..|| ModifiedInfo
-Page ||..|| PageType
+entity ChangeLog{
+    id: serial
+    description: varchar
+    user_id: int
+    created_at: datetime
+}
+
+Page ||--o{ BoardLabel
+Note ||--o| BoardLabel
+Note ||--|{ Page
+Note ||--o| Media
+User ||--|{ Page
+User ||--o{ ChangeLog
 
 @enduml

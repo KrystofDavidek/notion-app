@@ -10,7 +10,7 @@ export default function Menu({ pages }) {
     }
 
     return (
-        <div className="Menu">
+        <div className="menu">
             <PagesList pages={pages}/>
             <AddPageItem addPageItem={addPageItem}/>
         </div>

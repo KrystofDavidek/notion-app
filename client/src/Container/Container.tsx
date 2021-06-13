@@ -3,6 +3,7 @@ import axios from 'axios';
 import Page from '../Page/Page';
 import {Menu} from '../Menu/Menu';
 import {PageData} from "../Page/Page";
+import './Container.css';
 
 function fetchData():Promise<PageData[]> {
     // @ts-ignore
@@ -27,7 +28,7 @@ export default function Container() {
     }, [])
 
     return (
-        <div>
+        <div className="container">
             <Menu pages={pages}/>
             <Page/>
         </div>

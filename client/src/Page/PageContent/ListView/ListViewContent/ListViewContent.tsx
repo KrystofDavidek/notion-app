@@ -1,18 +1,12 @@
 import React, {useState} from 'react';
 import {ReactSortable} from "react-sortablejs";
 import {ListViewItem} from "./ListItem/ListViewItem";
-
-export interface ItemType {
-    id: number;
-    text: string;
-    order: number;
-    done: boolean
-}
+import {Item} from "../../../../Utils/Item";
 
 export const ListViewContent: React.FC<{checkList: boolean}> = ({checkList}) => {
-    const [state, setState] = useState<ItemType[]>([
-        {id: 1, text: "shrek", order:0, done: false},
-        {id: 2, text: "fiona", order:1, done: true},
+    const [state, setState] = useState<Item[]>([
+        {id: 1, text: "shrek", order:0, boardId:0, done: false},
+        {id: 2, text: "fiona", order:1, boardId:0, done: true},
     ]);
 
     const updateItem = (id: number, key: string, value: any) => {
@@ -34,7 +28,7 @@ export const ListViewContent: React.FC<{checkList: boolean}> = ({checkList}) => 
         updateItem(id, "text", value)
     }
 
-    const setOrder = (val: ItemType[]) => {
+    const setOrder = (val: Item[]) => {
         if (!val.some(o => o.hasOwnProperty("chosen"))){
             for (var i = 0; i < val.length; i++){
                 val[i].order = i;

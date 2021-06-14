@@ -10,6 +10,12 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Get all pages
 app.get("/pages", async (req, res) => {
   try {
@@ -27,6 +33,17 @@ app.get("/pages/:id", async (req, res) => {
     const db = client.db("notiondb");
     const page = await db.collection("Page").find(new ObjectId(req.params.id)).toArray();
     res.send(page);
+  } catch (err) {
+    res.status(400).json({ error: "Page does not exists" });
+  }
+});
+
+// Delete pages
+app.delete("/pages", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").deleteMany({});
+    res.send("Pages are deleted!");
   } catch (err) {
     res.status(400).json({ error: "Page does not exists" });
   }

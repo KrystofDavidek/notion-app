@@ -1,36 +1,26 @@
-import React, { useEffect, useState} from 'react';
-import axios from 'axios';
-import Page from '../Page/Page';
-import {Menu} from '../Menu/Menu';
-import {PageData} from "../Page/Page";
-import './Container.css';
-
-function fetchData():Promise<PageData[]> {
-    // @ts-ignore
-    return axios.get("/get-pages")
-    .then((res) => {
-        const result:PageData[] = res.data
-        // console.log(result);
-        return result
-    })
-    .catch((err) => {
-        console.error(err)
-    })
-}
+import React, { useEffect, useState } from "react";
+import useSWR from "swr";
+import Page from "../Page/Page";
+import { Menu } from "../Menu/Menu";
+import { PageData } from "../Page/Page";
+import { fetcher } from "../utils/fetcher";
+import "./Container.css";
 
 export default function Container() {
-    const [pages, setPages] = useState<PageData[]>([]);
+  const [pages, setPages] = useState<PageData[]>([]);
+  const { data, error } = useSWR("http://localhost:5000/pages", fetcher);
 
-    useEffect(() => {
-        fetchData().then(pages => {
-            setPages(pages);
-        });
-    }, [])
+  useEffect(() => {
+    function fetchPages() {
+      setPages(data);
+    }
+    fetchPages();
+  });
 
-    return (
-        <div className="container">
-            <Menu pages={pages}/>
-            <Page/>
-        </div>
-    )
+  return (
+    <div className="container">
+      <Menu pages={pages} />
+      <Page />
+    </div>
+  );
 }

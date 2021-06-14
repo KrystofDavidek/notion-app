@@ -1,88 +1,110 @@
-const express = require('express');
+import express from "express";
+import { MongoClient, ObjectId } from "mongodb";
+import { createPage, createUser } from "./test-data";
+
 const app = express();
 const port = 5000;
 const uri = "mongodb+srv://xbetik:notion@cluster0.8ylwm.mongodb.net/notiondb?retryWrites=true&w=majority";
-var ObjectId = require('mongodb').ObjectID;
-var MongoClient = require('mongodb').MongoClient
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Get all pages
-app.get('/get-pages/', function (req, res) {
-    MongoClient.connect(uri, function (err, client) {
-       if (err) throw err
-       var db = client.db('notiondb')
-       db.collection('Page').find().toArray(function (err, result) {
-         if (err) throw err
-         res.send(result)
-       })
-     })
- })
+app.get("/pages", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const pages = await db.collection("Page").find().toArray();
+    res.send(pages);
+  } catch (err) {
+    res.status(400).json({ error: "Pages do not exists" });
+  }
+});
 
- // Get page by id
- app.get('/get-page/:id', function (req, res) {
-    MongoClient.connect(uri, function (err, client) {
-       if (err) throw err
-       var db = client.db('notiondb')
-       const result = db.collection('Page').find(ObjectId(req.params.id)).toArray(function (err, result) {
-           if (err) throw err
-           res.send(result);
-       });
-     })
- })
+// Get page by id
+app.get("/pages/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const page = await db.collection("Page").find(new ObjectId(req.params.id)).toArray();
+    res.send(page);
+  } catch (err) {
+    res.status(400).json({ error: "Page does not exists" });
+  }
+});
+
+// Delete pages
+app.delete("/pages", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").deleteMany({});
+    res.send("Pages are deleted!");
+  } catch (err) {
+    res.status(400).json({ error: "Page does not exists" });
+  }
+});
 
 //  Create new page
- app.post('/create-page', (req, res) => {
-    var newPage = createPage();
-    res.send(insert("Page", newPage));
- })
- 
+app.post("/page", async (req, res) => {
+  const newPage = createPage();
+  try {
+    const db = client.db("notiondb");
+    const id = (await db.collection("Page").insertOne(newPage)).insertedId;
+    res.send(id);
+  } catch (err) {
+    res.status(400).json({ error: "Page was NOT inserted succesfully" });
+  }
+});
+
 //  Get users
-app.get('/get-users', (req, res) => {
-    MongoClient.connect(uri, function (err, client) {
-        if (err) throw err
-        var db = client.db('notiondb')
-        const result = db.collection('User').find(ObjectId(req.params.id)).toArray(function (err, result) {
-            if (err) throw err
-            res.send(result);
-        });
-      })
-})
+app.get("/users", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const users = await db.collection("User").find().toArray();
+    res.send(users);
+  } catch (err) {
+    res.status(400).json({ error: "Users do not exists" });
+  }
+});
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+//  Get user by id
+app.get("/user/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const user = await db.collection("User").find(new ObjectId(req.params.id)).toArray();
+    res.send(user);
+  } catch (err) {
+    res.status(400).json({ error: "User does not exists" });
+  }
+});
 
-// Insert into collection
-function insert(collectionName, object) {
-    MongoClient.connect(uri, function(err, client) {
-        if (err) throw err
-        var db = client.db('notiondb');
-        db.collection(collectionName).insertOne(object, function(err, newobj) {
-            if (err) throw err
-            console.log("Object was inserted succesfully");
-            return newobj.insertedId;
-        })
-    })
+//  Create new user
+app.post("/user", async (req, res) => {
+  const newUser = createUser();
+  try {
+    const db = client.db("notiondb");
+    const id = (await db.collection("User").insertOne(newUser)).insertedId;
+    res.send(id);
+  } catch (err) {
+    res.status(400).json({ error: "User was NOT inserted succesfully" });
+  }
+});
+
+async function run() {
+  client.connect();
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });
 }
 
-// Creating TEST objects
-
-function createUser() {
-    return {
-        username: "Anonymous",
-        created_at: Date.now(),
-        modified_at: null,
-        deleted_at: null
-    }
-}
-
-function createPage(title="Page", userId=null, iconPath = null) {
-    return {
-        title: title,
-        user_id: userId,
-        modified_info_id: 10,
-        icon_path: iconPath,
-        created_at: Date.now(),
-        modified_at: null,
-        deleted_at: null
-    }
-}
+run()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => client.close());

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Item} from "../../../../../Utils/Item";
+import {Item} from "../../../../../models/Item";
 import {ItemCheck} from "./ItemCheck/ItemCheck";
 
 export const ListViewItem: React.FC<{item: Item,handleCheck?: (id:number, value: boolean) => void}> = ({item, handleCheck}, handleTextChange: (id: number, text: string) => void) => {

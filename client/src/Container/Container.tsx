@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import React from "react";
 import Page from "../Page/Page";
+import { RecoilRoot } from "recoil";
 import { Menu } from "../Menu/Menu";
-import { PageData } from "../Page/Page";
-import { fetcher } from "../utils/fetcher";
 import "./Container.css";
 
 export default function Container() {
-  const [pages, setPages] = useState<PageData[]>([]);
-  const { data, error } = useSWR("http://localhost:5000/pages", fetcher);
-
-  useEffect(() => {
-    function fetchPages() {
-      setPages(data);
-    }
-    fetchPages();
-  });
-
   return (
     <div className="container">
-      <Menu pages={pages} />
-      <Page />
+      <RecoilRoot>
+        <Menu />
+        <Page />
+      </RecoilRoot>
     </div>
   );
 }

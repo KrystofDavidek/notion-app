@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {PageData} from "../../../Page/Page";
+import React from 'react';
+import { PageData } from '../../../models/PageData';
 import "./PageItem.css";
 
 export const PageItem: React.FC<{page: PageData}> = ({ page }) => {

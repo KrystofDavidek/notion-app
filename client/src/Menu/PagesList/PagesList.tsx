@@ -1,6 +1,6 @@
 import React from 'react';
-import {PageData} from "../../Page/Page";
 import {PageItem} from "../../Menu/PagesList/PageItem/PageItem"
+import { PageData } from '../../models/PageData';
 import "./PageList.css"
 
 export const PagesList: React.FC<{pages: PageData[]}> = ({ pages }) => {

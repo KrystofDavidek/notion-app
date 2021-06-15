@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ReactSortable} from "react-sortablejs";
 import {ListViewItem} from "./ListItem/ListViewItem";
-import {Item} from "../../../../Utils/Item";
+import {Item} from "../../../../models/Item";
 
 export const ListViewContent: React.FC<{checkList: boolean}> = ({checkList}) => {
     const [state, setState] = useState<Item[]>([

@@ -5,7 +5,6 @@ export const AddPageItem: React.FC<{addPageItem: any}> = ( {addPageItem} ) => {
 
     const handleSubmit = (evt: React.FormEvent) => {
         evt.preventDefault();
-        alert(`Submitting Name ${newPageName}`)
         addPageItem(newPageName)
     }
 

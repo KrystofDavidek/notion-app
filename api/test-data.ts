@@ -7,9 +7,9 @@ export const createUser = () => {
   };
 };
 
-export const createPage = (title = "Page", userId = null, iconPath = null) => {
+export const createPage = (title: string, userId = null, iconPath = null) => {
   return {
-    title: title,
+    title: title ? title : "New page",
     user_id: userId,
     modified_info_id: 10,
     icon_path: iconPath,

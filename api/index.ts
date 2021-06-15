@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
 import { createPage, createUser } from "./test-data";
 
@@ -10,11 +11,7 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors());
 
 // Get all pages
 app.get("/pages", async (req, res) => {

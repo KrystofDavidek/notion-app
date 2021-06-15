@@ -11,6 +11,7 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
+app.use(express.json());
 app.use(cors());
 
 // Get all pages
@@ -48,11 +49,11 @@ app.delete("/pages", async (req, res) => {
 
 //  Create new page
 app.post("/page", async (req, res) => {
-  const newPage = createPage();
+  const newPage = createPage(req.body.title);
   try {
     const db = client.db("notiondb");
-    const id = (await db.collection("Page").insertOne(newPage)).insertedId;
-    res.send(id);
+    const result = await db.collection("Page").insertOne(newPage);
+    res.send(result.ops[0]);
   } catch (err) {
     res.status(400).json({ error: "Page was NOT inserted succesfully" });
   }

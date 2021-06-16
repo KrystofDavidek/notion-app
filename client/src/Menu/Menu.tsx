@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import "./Menu.css";
 import { PagesList } from "./PagesList/PagesList";
 import { AddPageItem } from "./AddPageItem/AddPageItem";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { pagesState } from "../store/atoms";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
 
 export const Menu = () => {
   const [pages, setPages] = useRecoilState(pagesState);
-  const setNewPage = useSetRecoilState(pagesState);
   const { data, error } = useSWR("http://localhost:5000/pages", fetcher);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export const Menu = () => {
     };
     const response = await fetch("http://localhost:5000/page", requestOptions);
     const page = await response.json();
-    setNewPage({ isLoading: false, data: [...data, page] });
+    setPages({ isLoading: false, data: [...pages.data, page] });
   };
 
   if (error) return <div>failed to load</div>;

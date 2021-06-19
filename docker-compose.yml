@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  backend:
+  api:
     build: ./api/
     restart: always
     volumes:
@@ -8,9 +8,9 @@ services:
       - /opt/project/node_modules/
     ports:
       - "5000:5000"
-  frontend:
+  client:
     depends_on:
-      - backend
+      - api
     build: ./client/
     restart: always
     volumes:

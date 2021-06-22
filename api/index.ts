@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
-import { createPage, createUser } from "./test-data";
+import { createNote, createPage, createUser } from "./test-data";
 
 const app = express();
 const port = 5000;
@@ -18,7 +18,7 @@ app.use(cors());
 app.get("/pages", async (req, res) => {
   try {
     const db = client.db("notiondb");
-    const pages = await db.collection("Page").find().toArray();
+    const pages = await db.collection("Page").find({ deleted_at: null }).toArray();
     res.send(pages);
   } catch (err) {
     res.status(400).json({ error: "Pages do not exists" });
@@ -26,22 +26,110 @@ app.get("/pages", async (req, res) => {
 });
 
 // Get page by id
-app.get("/pages/:id", async (req, res) => {
+app.get("/page/:id", async (req, res) => {
   try {
     const db = client.db("notiondb");
-    const page = await db.collection("Page").find(new ObjectId(req.params.id)).toArray();
+    const query = { _id: new ObjectId(req.params.id), deleted_at: null };
+    const page = await db.collection("Page").find(query).toArray();
     res.send(page);
   } catch (err) {
     res.status(400).json({ error: "Page does not exists" });
   }
 });
 
-// Delete pages
-app.delete("/pages", async (req, res) => {
+// Get notes by page id
+app.get("/page/:id/notes", async (req, res) => {
   try {
     const db = client.db("notiondb");
-    await db.collection("Page").deleteMany({});
-    res.send("Pages are deleted!");
+    const query = { page_id: new ObjectId(req.params.id), deleted_at: null };
+    const page = await db.collection("Note").find(query).toArray();
+    res.send(page);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: "Notes do not exists" });
+  }
+});
+
+//  Create new note
+app.post("/page/:id/note", async (req, res) => {
+  const newNote = createNote(new ObjectId(req.params.id), "Example");
+  try {
+    const db = client.db("notiondb");
+    const result = await db.collection("Note").insertOne(newNote);
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $set: { modified_at: Date.now() },
+      }
+    );
+    res.send(result.ops[0]);
+  } catch (err) {
+    res.status(400).json({ error: "Note was NOT inserted succesfully" });
+  }
+});
+
+//  Modify note
+app.put("/page/:pageId/note/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Note").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $set: {
+          text: req.body.text,
+          media_id: req.body.media_id,
+          page_id: req.body.page_id,
+          order: req.body.order,
+          label: req.body.label,
+          created_at: req.body.created_at,
+          modified_at: Date.now(),
+          deleted_at: req.body.deleted_at,
+        },
+      }
+    );
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: { modified_at: Date.now() },
+      }
+    );
+    res.send("Note is modificated!");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
+//  Delete new note
+app.delete("/page/:pageId/note/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Note").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $set: { deleted_at: Date.now() },
+      }
+    );
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: { modified_at: Date.now() },
+      }
+    );
+    res.send("Note is deleted!");
+  } catch (err) {
+    res.status(400).json({ error: "Page or note does not exists" });
+  }
+});
+
+// Delete page
+app.delete("/page/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const query = { _id: new ObjectId(req.params.id) };
+    await db.collection("Page").updateOne(query, {
+      $set: { deleted_at: Date.now() },
+    });
+    res.send("Page is deleted!");
   } catch (err) {
     res.status(400).json({ error: "Page does not exists" });
   }
@@ -90,6 +178,50 @@ app.post("/user", async (req, res) => {
     res.send(id);
   } catch (err) {
     res.status(400).json({ error: "User was NOT inserted succesfully" });
+  }
+});
+
+//  Get notes
+app.get("/notes", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const items = await db.collection("Note").find().toArray();
+    res.send(items);
+  } catch (err) {
+    res.status(400).json({ error: "Notes do not exists" });
+  }
+});
+
+//  Get note by id
+app.get("/note/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const note = await db.collection("Note").find(new ObjectId(req.params.id)).toArray();
+    res.send(note);
+  } catch (err) {
+    res.status(400).json({ error: "Note does not exists" });
+  }
+});
+
+// Delete pages for TESTING
+app.delete("/pages", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").deleteMany({});
+    res.send("Pages are deleted!");
+  } catch (err) {
+    res.status(400).json({ error: "Page does not exists" });
+  }
+});
+
+// Delete notes for TESTING
+app.delete("/notes", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Note").deleteMany({});
+    res.send("Notes are deleted!");
+  } catch (err) {
+    res.status(400).json({ error: "Notes does not exists" });
   }
 });
 

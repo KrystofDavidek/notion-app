@@ -1,13 +1,27 @@
-import React from 'react';
-import Card from "./Card/Card";
-import AddCardButton from "./AddCardButton/AddCardButton";
+import React, {useState} from 'react';
+import './style.css';
+import {ReactSortable} from "react-sortablejs";
+import {BoardData} from "../BoardView";
+import {Item} from "../../../../models/Item";
+import {Card} from "./Card/Card";
 
-export default class Board extends React.Component {
-    render() {
-        return <div>
-            <Card/>
-            <Card/>
-            <AddCardButton/>
-        </div>
+export const Board: React.FC<{items: Item[], board: BoardData}> = ({items, board}) => {
+    const [list, setList] = useState([...items])
+
+    const updateFromBoard = (val: Item[]) => {
+        if (!val.some(o => o.hasOwnProperty("chosen"))) {
+            for (var i = 0; i < val.length; i++){
+                val[i].order = i;
+                val[i].boardId = board.id;
+            }
+            setList(val)
+            console.log(val)
+        }
     }
+
+    return <ReactSortable list={list} setList={updateFromBoard} group="board" className="board">
+            {list.map((item) => (
+                <Card item={item}/>
+            ))}
+        </ReactSortable>
 }

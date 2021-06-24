@@ -1,53 +1,67 @@
-import React, {useState} from 'react';
-import {ReactSortable} from "react-sortablejs";
-import {ListViewItem} from "./ListItem/ListViewItem";
-import {Item} from "../../../../models/Item";
+import React from "react";
+import { ReactSortable } from "react-sortablejs";
+import { ListViewItem } from "./ListItem/ListViewItem";
+import { useRecoilState } from "recoil";
+import { activePageState, itemsState } from "../../../../store/atoms";
+import { Item, Label } from "../../../../models/Item";
 
-export const ListViewContent: React.FC<{checkList: boolean}> = ({checkList}) => {
-    const [state, setState] = useState<Item[]>([
-        {id: 1, text: "shrek", order:0, boardId:0, done: false},
-        {id: 2, text: "fiona", order:1, boardId:0, done: true},
-    ]);
+export const ListViewContent = () => {
+  const [activePage, setActivePage] = useRecoilState(activePageState);
+  const [items, setItems] = useRecoilState(itemsState);
+  const isChecklist = activePage.data?.checkboxes;
 
-    const updateItem = (id: number, key: string, value: any) => {
-        var stateCopy = [...state];
-        var itemIndex = stateCopy.findIndex(item => item.id === id);
-        // @ts-ignore
-        stateCopy[itemIndex][key] = value
-        setState(stateCopy)
-        console.log(stateCopy)
+  const updateItem = async (_id: string, item: Item) => {
+    const requestOptions = {
+      method: "PUT",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(item),
+    };
+    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+  };
 
-        //update server
+  const changeDone = async (id: number, _id: string) => {
+    const stateCopy = [...items.data];
+    const itemIndex = stateCopy.findIndex((item) => item.id === id);
+    if (stateCopy[itemIndex].label === Label.Done) {
+      stateCopy[itemIndex] = { ...stateCopy[itemIndex], label: Label.ToDo };
+    } else {
+      stateCopy[itemIndex] = { ...stateCopy[itemIndex], label: Label.Done };
     }
+    setItems({ ...items, data: stateCopy });
+    await updateItem(_id, stateCopy[itemIndex]);
+  };
 
-    const changeDone = (id:number, value: boolean) => {
-        updateItem(id, "done", value)
+  const changeText = async (id: number, value: string, _id: string) => {
+    const stateCopy = [...items.data];
+    const itemIndex = stateCopy.findIndex((item) => item.id === id);
+    stateCopy[itemIndex] = { ...stateCopy[itemIndex], text: value };
+    setItems({ ...items, data: stateCopy });
+    await updateItem(_id, stateCopy[itemIndex]);
+  };
+
+  const setOrder = (val: Item[]) => {
+    const stateCopy = val;
+    if (!stateCopy.some((o) => o.hasOwnProperty("chosen"))) {
+      for (let i = 0; i < stateCopy.length; i++) {
+        stateCopy[i] = {
+          ...stateCopy[i],
+          order: i,
+        };
+      }
+      setItems({ ...items, data: stateCopy });
+      stateCopy.map(async (item) => {
+        await updateItem(item._id, item);
+      });
     }
+  };
 
-    const changeText = (id:number, value: string) => {
-        updateItem(id, "text", value)
-    }
-
-    const setOrder = (val: Item[]) => {
-        if (!val.some(o => o.hasOwnProperty("chosen"))){
-            for (var i = 0; i < val.length; i++){
-                val[i].order = i;
-            }
-            setState(val)
-            console.log(val)
-
-            //update server
-        }
-    }
-
-    return (
-        <ul className={`${checkList ? "checks": ""}`}>
-        <ReactSortable list={state} setList={setOrder}>
-            {state.map((item) => (
-                <ListViewItem item={item} handleCheck={checkList ? changeDone: undefined}/>
-            ))}
-        </ReactSortable>
-        </ul>
-
-    );
-}
+  return (
+    <ul className={`${isChecklist ? "checks" : ""}`}>
+      <ReactSortable list={[...items.data]} setList={setOrder}>
+        {items.data.map((item) => (
+          <ListViewItem item={item} handleCheck={isChecklist ? changeDone : undefined} />
+        ))}
+      </ReactSortable>
+    </ul>
+  );
+};

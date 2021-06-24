@@ -1,10 +1,10 @@
 import React from "react";
-import Page from "../Page/Page";
+import { Page } from "../Page/Page";
 import { RecoilRoot } from "recoil";
 import { Menu } from "../Menu/Menu";
 import "./Container.css";
 
-export default function Container() {
+export const Container = () => {
   return (
     <div className="container">
       <RecoilRoot>
@@ -13,4 +13,4 @@ export default function Container() {
       </RecoilRoot>
     </div>
   );
-}
+};

@@ -10,7 +10,7 @@ interface ActivePageView {
   isLoading: boolean;
   data?: PageData;
 }
-interface ItemsView {
+export interface ItemsView {
   isLoading: boolean;
   data: Item[];
 }
@@ -41,8 +41,32 @@ export const activePageState = atom<ActivePageView>({
   },
 });
 
-export const itemsState = atom<ItemsView>({
-  key: "items",
+export const itemsStateListView = atom<ItemsView>({
+  key: "itemsListView",
+  default: {
+    isLoading: true,
+    data: [],
+  },
+});
+
+export const itemsStateToDo = atom<ItemsView>({
+  key: "itemsToDo",
+  default: {
+    isLoading: true,
+    data: [],
+  },
+});
+
+export const itemsStateDoing = atom<ItemsView>({
+  key: "itemsDoing",
+  default: {
+    isLoading: true,
+    data: [],
+  },
+});
+
+export const itemsStateDone = atom<ItemsView>({
+  key: "itemsDone",
   default: {
     isLoading: true,
     data: [],

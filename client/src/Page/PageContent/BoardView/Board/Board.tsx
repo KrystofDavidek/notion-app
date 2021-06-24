@@ -3,13 +3,13 @@ import "./style.css";
 import { ReactSortable } from "react-sortablejs";
 import { BoardData } from "../BoardView";
 import { Card } from "./Card/Card";
-import { useRecoilState } from "recoil";
-import { activePageState, itemsState } from "../../../../store/atoms";
+import {RecoilState, useRecoilState} from "recoil";
+import {activePageState, ItemsView} from "../../../../store/atoms";
 import { Item } from "../../../../models/Item";
 
 export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
-  const [items, setItems] = useRecoilState(itemsState);
+  const [items, setItems] = useRecoilState(board.itemsState);
 
   const updateItem = async (_id: string, item: Item) => {
     const requestOptions = {

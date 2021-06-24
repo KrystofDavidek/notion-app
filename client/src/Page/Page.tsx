@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import useSWR from "swr";
-import { activePageState, itemsState } from "../store/atoms";
+import {activePageState, itemsStateDoing, itemsStateDone, itemsStateToDo} from "../store/atoms";
 import { fetcher } from "../utils/fetcher";
 import { BoardData, BoardView } from "./PageContent/BoardView/BoardView";
 import { ListView } from "./PageContent/ListView/ListView";
@@ -9,11 +9,11 @@ import { ListView } from "./PageContent/ListView/ListView";
 export const Page = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
   const { data, error } = useSWR(`http://localhost:5000/page/${activePage.data?._id}/notes`, fetcher);
-  const [items, setItems] = useRecoilState(itemsState);
+  const [items, setItems] = useRecoilState(itemsStateToDo);
   const boards: BoardData[] = [
-    { id: 0, title: "First" },
-    { id: 1, title: "Second" },
-    { id: 2, title: "Third" },
+    { id: 0, title: "First", itemsState: itemsStateToDo },
+    { id: 1, title: "Second", itemsState: itemsStateDoing },
+    { id: 2, title: "Third", itemsState: itemsStateDone },
   ];
 
   useEffect(() => {

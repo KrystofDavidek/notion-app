@@ -2,12 +2,12 @@ import React from "react";
 import { ReactSortable } from "react-sortablejs";
 import { ListViewItem } from "./ListItem/ListViewItem";
 import { useRecoilState } from "recoil";
-import { activePageState, itemsState } from "../../../../store/atoms";
+import { activePageState, itemsStateListView } from "../../../../store/atoms";
 import { Item, Label } from "../../../../models/Item";
 
 export const ListViewContent = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
-  const [items, setItems] = useRecoilState(itemsState);
+  const [items, setItems] = useRecoilState(itemsStateListView);
   const isChecklist = activePage.data?.checkboxes;
 
   const updateItem = async (_id: string, item: Item) => {

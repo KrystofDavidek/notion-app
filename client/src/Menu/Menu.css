@@ -4,72 +4,16 @@
     background-color: #A0E494;
     border: black solid 0.1em;
     border-radius: 0 0.5em 0.5em 0;
-    align-content: space-around;
-}
-.menu__new-page{
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    width: 10em;
-}
-
-.menu__input {
-    align-self: center;
-    border: none;
-    width: 20em;
-    padding: 0.7em;
-    border-radius: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.menu__submit {
-    padding: 1em;
-    font-weight: bold;
-    background-color: #DFB4B4;
-    border: black;
-    border-radius: 1em;
 }
 
 .menu__header{
-    align-self: center;
-    font-weight: 700;
-    font-size: 2.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .menu__page-icon{
-    font-size: 0.5em;
-    font-weight: 500;
-    border: black solid 0.1em;
-    border-radius: 1em;
-}
-
-/*
-Animations
- */
-
-.menu__submit:hover {
-    transform: scale(1.1);
-    animation: submit_glow 0.5s ease-in forwards;
-}
-
-.menu__submit:active {
-    animation: contrast 0.5s ease-in;
-}
-
-@keyframes submit_glow {
-    from {
-        background-color: #D1D0D0;
-    }
-    to {
-        background-color: #D1D0D0;
-    }
-}
-
-@keyframes contrast {
-    from {
-        background-color: #D8EDD4;
-    }
-    to {
-        background-color: #D8EDD4;
-    }
+    height: 3rem;
 }

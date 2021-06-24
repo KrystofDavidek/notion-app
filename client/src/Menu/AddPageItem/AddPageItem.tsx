@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./AddPageItem.css";
 
 export const AddPageItem: React.FC<{addPageItem: any}> = ( {addPageItem} ) => {
     const [newPageName, setNewPageName] = useState("");
@@ -9,14 +10,14 @@ export const AddPageItem: React.FC<{addPageItem: any}> = ( {addPageItem} ) => {
     }
 
     return (
-        <form className="menu__new-page" aria-label="New page" onSubmit={handleSubmit}>
+        <form className="menu__new-page-form" aria-label="New page" onSubmit={handleSubmit}>
+            <input className="menu__submit" aria-label="Add new page" type="submit" value="" />
             <input
                 className="menu__input"
                 type="text"
-                placeholder="New page name"
+                placeholder="New page"
                 value={newPageName}
                 onChange={e => setNewPageName(e.target.value)} />
-            <input className="menu__submit" aria-label="Add new page" type="submit" value="Add new page" />
         </form>
     )
 }

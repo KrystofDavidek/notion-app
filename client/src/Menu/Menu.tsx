@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { pagesState } from "../store/atoms";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
+import ReactLogo from "../assets/app-icon.svg"
 
 export const Menu = () => {
   const [pages, setPages] = useRecoilState(pagesState);
@@ -36,10 +37,10 @@ export const Menu = () => {
 
   return (
     <nav className="menu">
-      <h1 className="menu__header">
-        <img alt="Page icon" className="menu__page-icon" src="/client/src/assets/page-school.svg" />
-        Notes X
-      </h1>
+      <div className="menu__header">
+        <img alt="Page icon" className="menu__page-icon" src={ReactLogo}/>
+        <h1>Notes X</h1>
+      </div>
       <PagesList pages={pages.data} />
       <AddPageItem addPageItem={addPageItem} />
     </nav>

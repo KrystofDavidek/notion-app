@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { EmojiData } from "./models/Icon";
 
 export enum Label {
   ToDo = "To-do",
@@ -18,13 +19,13 @@ export const createUser = () => {
   };
 };
 
-export const createPage = (title: string, userId = null, iconPath = null) => {
+export const createPage = (title: string, userId = null, iconId = "1f5d2-fe0f") => {
   return {
     title: title ? title : "New page",
     user_id: userId,
     list_page_type: true,
     checkboxes: false,
-    icon_path: iconPath,
+    icon_id: iconId,
     created_at: Date.now(),
     modified_at: null,
     deleted_at: null,
@@ -43,3 +44,13 @@ export const createNote = (pageId: ObjectId, text: string) => {
     deleted_at: null,
   };
 };
+
+export const createIcon = (emojiData: EmojiData) => {
+  return {
+    unified: emojiData.unified,
+    originalUnified: emojiData.originalUnified,
+    names: emojiData.names,
+    emoji: emojiData.emoji,
+    activeSkinTone: emojiData.activeSkinTone    
+  }
+}

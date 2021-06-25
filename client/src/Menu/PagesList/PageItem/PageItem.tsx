@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageData } from '../../../models/PageData';
 import "./PageItem.css";
 import { PageIconPicker } from './PageIconPicker';
-import { IEmojiData, SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
+import { EmojiData, SKIN_TONE_MEDIUM_DARK } from '../../../models/Icon';
 
-const defaultIcon:IEmojiData = {
-    emoji: "📝",
-    names: ["spiral_note_pad"],
-    originalUnified: "1f5d2-fe0f",
-    unified: "1f5d2-fe0f",
-    activeSkinTone: SKIN_TONE_MEDIUM_DARK
-}
-
-export const PageItem: React.FC<{ page: PageData }> = ({ page }) => {
-
+export const PageItem: React.FC<{ page: PageData, icons: EmojiData[], updatePageIcons:any }> = ({ page, icons, updatePageIcons }) => {
     const [pickerEnabled, setPickerEnabled] = useState(false);
     const [chosenEmoji, setChosenEmoji] = useState(defaultIcon);
 
-    const onEmojiClick = (event: React.MouseEvent, emojiObject: any) => {
-        setChosenEmoji(emojiObject);
+    useEffect(() => {
+        const icon = icons.find(icon => icon.unified === page.icon_id);
+        icon && setChosenEmoji(icon);
+    })
+
+    const onEmojiClick = (event: React.MouseEvent, emojiObject: EmojiData) => {
         setPickerEnabled(false);
-        console.log(emojiObject);
+        updatePageIcons(page._id, emojiObject)
+        setChosenEmoji(emojiObject);
     };
 
     const EnablePicker = () => {
@@ -40,4 +36,12 @@ export const PageItem: React.FC<{ page: PageData }> = ({ page }) => {
             </div>
         </a>
     )
+}
+
+const defaultIcon:EmojiData = {
+    emoji: "📝",
+    names: ["spiral_note_pad"],
+    originalUnified: "1f5d2-fe0f",
+    unified: "1f5d2-fe0f",
+    activeSkinTone: SKIN_TONE_MEDIUM_DARK
 }

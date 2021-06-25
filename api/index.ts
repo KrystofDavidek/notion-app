@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
-import { createNote, createPage, createUser } from "./test-data";
+import { createNote, createPage, createUser, createIcon } from "./test-data";
 
 const app = express();
 const port = 5000;
@@ -86,7 +86,24 @@ app.put("/page/:pageId/note/:id", async (req, res) => {
           deleted_at: req.body.deleted_at,
         },
       }
-    );
+    );//  Create new note
+    app.post("/page/:id/note", async (req, res) => {
+      const newNote = createNote(new ObjectId(req.params.id), "Example");
+      try {
+        const db = client.db("notiondb");
+        const result = await db.collection("Note").insertOne(newNote);
+        await db.collection("Page").updateOne(
+          { _id: new ObjectId(req.params.id) },
+          {
+            $set: { modified_at: Date.now() },
+          }
+        );
+        res.send(result.ops[0]);
+      } catch (err) {
+        res.status(400).json({ error: "Note was NOT inserted succesfully" });
+      }
+    });
+
     await db.collection("Page").updateOne(
       { _id: new ObjectId(req.params.pageId) },
       {
@@ -222,6 +239,46 @@ app.delete("/notes", async (req, res) => {
     res.send("Notes are deleted!");
   } catch (err) {
     res.status(400).json({ error: "Notes does not exists" });
+  }
+});
+
+// Get all page icons
+app.get("/pageIcons", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const icons = await db.collection("PageIcon").find({ deleted_at: null }).toArray();
+    res.send(icons);
+  } catch (err) {
+    res.status(400).json({ error: "Icons do not exists" });
+  }
+});
+
+//  Create new icon
+app.post("/icon", async (req, res) => {
+  const newIcon = createIcon(req.body.emojiData);
+  try {
+    const db = client.db("notiondb");
+    const result = await db.collection("PageIcon").insertOne(newIcon);
+    res.send(result.ops[0]);
+  } catch (err) {
+    res.status(400).json({ error: "Icon was NOT inserted succesfully" });
+  }
+});
+
+// Update page icon id
+app.put("/updatePageIcon/:pageId/:iconId", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: {
+          icon_id: req.params.iconId,
+        }
+      })
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
   }
 });
 

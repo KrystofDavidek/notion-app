@@ -3,7 +3,7 @@ export interface PageData {
   title: string;
   user_id: number;
   modified_info_id: number;
-  icon_path: string;
+  icon_id: string;
   created_at: number;
   modified_at: number;
   deleted_at: number;

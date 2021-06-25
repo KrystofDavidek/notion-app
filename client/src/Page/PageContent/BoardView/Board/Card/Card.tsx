@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 import MenuThreeDots from "./MenuThreeDots/MenuThreeDots";
-import {Item} from "../../../../../models/Item";
-import './style.css'
+import { Item } from "../../../../../models/Item";
+import "./style.css";
 
-export const Card: React.FC<{item: Item}> = ({item}) => {
-    return <div className="card">
-        <p>{item.text}</p>
-        <MenuThreeDots/>
+export const Card: React.FC<{ item: Item }> = ({ item }) => {
+  return (
+    <div className="card">
+      <p>{item.text}</p>
+      <MenuThreeDots />
     </div>
-}
+  );
+};

@@ -3,7 +3,7 @@ import "./Menu.css";
 import { PagesList } from "./PagesList/PagesList";
 import { AddPageItem } from "./AddPageItem/AddPageItem";
 import { useRecoilState } from "recoil";
-import { pagesState, iconsState } from "../store/atoms";
+import { activePageState, pagesState, iconsState } from "../store/atoms";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
 import ReactLogo from "../assets/app-icon.svg";
@@ -12,6 +12,7 @@ import { EmojiData } from "../models/Icon";
 export const Menu = () => {
   const [pages, setPages] = useRecoilState(pagesState);
   const [icons, setIcons] = useRecoilState(iconsState);
+  const [activePage, setActivePage] = useRecoilState(activePageState);
 
   const getData = (endpoint: string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,7 +38,7 @@ export const Menu = () => {
   const addPageItem = async (pageTitle: string) => {
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ title: pageTitle }),
     };
     const response = await fetch("http://localhost:5000/page", requestOptions);

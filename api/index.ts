@@ -42,8 +42,8 @@ app.get("/page/:id/notes", async (req, res) => {
   try {
     const db = client.db("notiondb");
     const query = { page_id: new ObjectId(req.params.id), deleted_at: null };
-    const page = await db.collection("Note").find(query).toArray();
-    res.send(page);
+    const notes = await db.collection("Note").find(query).toArray();
+    res.send(notes);
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: "Notes do not exists" });
@@ -52,17 +52,23 @@ app.get("/page/:id/notes", async (req, res) => {
 
 //  Create new note
 app.post("/page/:id/note", async (req, res) => {
-  const newNote = createNote(new ObjectId(req.params.id), "Example");
+  const newNote = createNote(new ObjectId(req.params.id), req.body.text);
   try {
     const db = client.db("notiondb");
-    const result = await db.collection("Note").insertOne(newNote);
+    const id = (await db.collection("Note").insertOne(newNote)).insertedId;
+    await db.collection("Note").updateOne(
+      { _id: id },
+      {
+        $set: { id: parseInt(id.valueOf(), 16) },
+      }
+    );
     await db.collection("Page").updateOne(
       { _id: new ObjectId(req.params.id) },
       {
         $set: { modified_at: Date.now() },
       }
     );
-    res.send(result.ops[0]);
+    res.send(id);
   } catch (err) {
     res.status(400).json({ error: "Note was NOT inserted succesfully" });
   }
@@ -78,7 +84,7 @@ app.put("/page/:pageId/note/:id", async (req, res) => {
         $set: {
           text: req.body.text,
           media_id: req.body.media_id,
-          page_id: req.body.page_id,
+          page_id: new ObjectId(req.body.page_id),
           order: req.body.order,
           label: req.body.label,
           created_at: req.body.created_at,
@@ -110,7 +116,7 @@ app.put("/page/:pageId/note/:id", async (req, res) => {
         $set: { modified_at: Date.now() },
       }
     );
-    res.send("Note is modificated!");
+    res.send("Note is updated");
   } catch (err) {
     res.status(400).json({ error: "Problem with modification" });
   }
@@ -202,8 +208,8 @@ app.post("/user", async (req, res) => {
 app.get("/notes", async (req, res) => {
   try {
     const db = client.db("notiondb");
-    const items = await db.collection("Note").find().toArray();
-    res.send(items);
+    const notes = await db.collection("Note").find().toArray();
+    res.send(notes);
   } catch (err) {
     res.status(400).json({ error: "Notes do not exists" });
   }

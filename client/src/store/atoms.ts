@@ -51,7 +51,6 @@ export const activePageState = atom<ActivePageView>({
       created_at: 1624440423764,
       modified_at: 1624440450026,
       deleted_at: null,
-      modified_info_id: 1
     },
   },
 });

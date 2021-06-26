@@ -193,8 +193,8 @@ app.get("/user/:id", async (req, res) => {
 });
 
 //  Create new user
-app.post("/user", async (req, res) => {
-  const newUser = createUser();
+app.post("/user/:username/:password", async (req, res) => {
+  const newUser = createUser(req.params.username, req.params.password);
   try {
     const db = client.db("notiondb");
     const id = (await db.collection("User").insertOne(newUser)).insertedId;

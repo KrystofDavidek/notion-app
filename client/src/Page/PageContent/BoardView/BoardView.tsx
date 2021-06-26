@@ -13,7 +13,7 @@ export const BoardView: React.FC<{ boards: BoardData[] }> = ({ boards }) => {
   return (
     <div>
       {boards.map((board) => (
-        <Board board={board}  />
+        <Board key={board.id} board={board}  />
       ))}
     </div>
   );

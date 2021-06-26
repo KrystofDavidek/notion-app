@@ -28,6 +28,7 @@
 }
 
 .content__icon:hover {
+    background-color: transparent;
     transform: scale(1.2);
     animation: glow 0.5s ease-in forwards;
 }

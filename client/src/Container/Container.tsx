@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import { Menu } from "../Menu/Menu";
 import "./Container.css";
 
-export const Container = () => {
+export const Container: React.FC<{username: string}> = (username) => {
   return (
     <div className="container">
       <RecoilRoot>

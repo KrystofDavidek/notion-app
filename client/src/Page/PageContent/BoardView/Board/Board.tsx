@@ -39,7 +39,7 @@ export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   return (
     <ReactSortable list={items.data} setList={updateFromBoard} group="board" className="board">
       {items.data.map((item) => (
-        <Card item={item} />
+        <Card key={item._id} item={item} />
       ))}
     </ReactSortable>
   );

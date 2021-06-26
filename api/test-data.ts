@@ -7,11 +7,11 @@ export enum Label {
   Done = "Done",
 }
 
-export const createUser = () => {
+export const createUser = (username:string, password:string) => {
   return {
-    username: "Anonymous",
+    username: username,
     email: "",
-    password: "",
+    password: password,
     role: 0,
     created_at: Date.now(),
     modified_at: null,

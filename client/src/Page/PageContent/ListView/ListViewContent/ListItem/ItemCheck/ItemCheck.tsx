@@ -5,12 +5,11 @@ import "./style.css";
 export const ItemCheck: React.FC<{
   children: React.ReactNode;
   value: Label;
-  handleCheck: (id: number, _id: string) => void;
-  id: number;
+  handleCheck: (_id: string) => void;
   _id: string;
-}> = ({ children, value, handleCheck, id, _id }) => {
+}> = ({ children, value, handleCheck, _id }) => {
   function handleChange(event: any) {
-    handleCheck(id, _id);
+    handleCheck(_id);
   }
 
   return (

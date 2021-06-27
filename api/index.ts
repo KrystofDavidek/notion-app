@@ -45,7 +45,6 @@ app.get("/page/:id/notes", async (req, res) => {
     const notes = await db.collection("Note").find(query).toArray();
     res.send(notes);
   } catch (err) {
-    console.error(err);
     res.status(400).json({ error: "Notes do not exists" });
   }
 });
@@ -55,11 +54,12 @@ app.post("/page/:id/note", async (req, res) => {
   const newNote = createNote(new ObjectId(req.params.id), req.body.text);
   try {
     const db = client.db("notiondb");
-    const id = (await db.collection("Note").insertOne(newNote)).insertedId;
+    const result = await db.collection("Note").insertOne(newNote);
+    const note = result.ops[0];
     await db.collection("Note").updateOne(
-      { _id: id },
+      { _id: note.id },
       {
-        $set: { id: parseInt(id.valueOf(), 16) },
+        $set: { id: parseInt(note._id.valueOf(), 16) },
       }
     );
     await db.collection("Page").updateOne(
@@ -68,7 +68,7 @@ app.post("/page/:id/note", async (req, res) => {
         $set: { modified_at: Date.now() },
       }
     );
-    res.send(id);
+    res.send(note);
   } catch (err) {
     res.status(400).json({ error: "Note was NOT inserted succesfully" });
   }
@@ -92,24 +92,7 @@ app.put("/page/:pageId/note/:id", async (req, res) => {
           deleted_at: req.body.deleted_at,
         },
       }
-    );//  Create new note
-    app.post("/page/:id/note", async (req, res) => {
-      const newNote = createNote(new ObjectId(req.params.id), "Example");
-      try {
-        const db = client.db("notiondb");
-        const result = await db.collection("Note").insertOne(newNote);
-        await db.collection("Page").updateOne(
-          { _id: new ObjectId(req.params.id) },
-          {
-            $set: { modified_at: Date.now() },
-          }
-        );
-        res.send(result.ops[0]);
-      } catch (err) {
-        res.status(400).json({ error: "Note was NOT inserted succesfully" });
-      }
-    });
-
+    );
     await db.collection("Page").updateOne(
       { _id: new ObjectId(req.params.pageId) },
       {
@@ -280,8 +263,9 @@ app.put("/updatePageIcon/:pageId/:iconId", async (req, res) => {
       {
         $set: {
           icon_id: req.params.iconId,
-        }
-      })
+        },
+      }
+    );
     res.send("OK");
   } catch (err) {
     res.status(400).json({ error: "Problem with modification" });

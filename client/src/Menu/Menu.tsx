@@ -18,7 +18,7 @@ export const Menu = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data, error } = useSWR(endpoint, fetcher);
     return { data: data, error: error };
-  }
+  };
 
   const { data: dataPages, error: pagesError } = getData("http://localhost:5000/pages");
   const { data: dataIcons, error: iconsError } = getData("http://localhost:5000/pageIcons");
@@ -27,9 +27,10 @@ export const Menu = () => {
     const set = () => {
       if (pages.isLoading && dataPages) {
         setPages({ isLoading: false, data: dataPages });
+        setActivePage({ data: { ...dataPages[0], list_page_type: true, checkboxes: true } });
       }
       if (icons.isLoading && dataIcons) {
-        setIcons({ isLoading: false, data: dataIcons })
+        setIcons({ isLoading: false, data: dataIcons });
       }
     };
     set();
@@ -47,7 +48,7 @@ export const Menu = () => {
   };
 
   const updatePageIcons = async (pageId: string, icon: EmojiData) => {
-    const iconRes = icons.data.find(icn => icn.unified === icon.unified);
+    const iconRes = icons.data.find((icn) => icn.unified === icon.unified);
     if (iconRes === undefined) {
       createPageIcon(icon);
     }
@@ -59,15 +60,15 @@ export const Menu = () => {
     try {
       await fetch(`http://localhost:5000/updatePageIcon/${pageId}/${icon.unified}`, requestOptions);
     } catch {
-      throw Error("Updating icon was not successfull.")
+      throw Error("Updating icon was not successfull.");
     }
     const newPages = [...pages.data];
-    const index = pages.data.findIndex(p => p._id === pageId);
-    const newPage = {...newPages[index]};
+    const index = pages.data.findIndex((p) => p._id === pageId);
+    const newPage = { ...newPages[index] };
     newPage.icon_id = icon.unified;
     newPages[index] = newPage;
-    setPages({ isLoading: false, data: [...newPages]});
-  }
+    setPages({ isLoading: false, data: [...newPages] });
+  };
 
   const createPageIcon = async (emojiData: EmojiData) => {
     const requestOptions = {

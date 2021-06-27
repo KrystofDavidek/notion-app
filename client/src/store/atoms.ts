@@ -1,15 +1,14 @@
 import { atom } from "recoil";
 import { Item } from "../models/Item";
 import { PageData } from "../models/PageData";
-import { EmojiData } from "../models/Icon"
+import { EmojiData } from "../models/Icon";
 
 interface PagesView {
   isLoading: boolean;
   data: PageData[];
 }
 interface ActivePageView {
-  isLoading: boolean;
-  data?: PageData;
+  data: PageData;
 }
 export interface ItemsView {
   isLoading: boolean;
@@ -33,30 +32,29 @@ export const iconsState = atom<IconView>({
   key: "icons",
   default: {
     isLoading: true,
-    data: []
-  }
+    data: [],
+  },
 });
 
 export const activePageState = atom<ActivePageView>({
   key: "activePage",
   default: {
-    isLoading: true,
     data: {
-      _id: "60d2fe6768d31b560a17415a",
+      _id: "",
       title: "New page",
       user_id: 0,
-      list_page_type: false,
+      list_page_type: true,
       checkboxes: false,
       icon_id: "",
-      created_at: 1624440423764,
-      modified_at: 1624440450026,
+      created_at: null,
+      modified_at: null,
       deleted_at: null,
     },
   },
 });
 
-export const itemsStateListView = atom<ItemsView>({
-  key: "itemsListView",
+export const itemsState = atom<ItemsView>({
+  key: "items",
   default: {
     isLoading: true,
     data: [],

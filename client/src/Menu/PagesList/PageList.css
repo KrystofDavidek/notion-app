@@ -2,5 +2,6 @@
     margin: 2em 0 2em 0;
     display: flex;
     flex-direction: column;
-    max-height: 70%;
+    flex-grow: 1;
+    overflow: auto;
 }

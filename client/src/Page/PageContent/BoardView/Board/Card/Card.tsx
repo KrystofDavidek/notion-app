@@ -1,10 +1,13 @@
-import React from 'react';
+import React from "react";
 import MenuThreeDots from "./MenuThreeDots/MenuThreeDots";
+import { Item } from "../../../../../models/Item";
+import "./style.css";
 
-export default class Card extends React.Component {
-    render() {
-        return <div>
-            <MenuThreeDots/>
-        </div>
-    }
-}
+export const Card: React.FC<{ item: Item }> = ({ item }) => {
+  return (
+    <div className="card">
+      <p>{item.text}</p>
+      <MenuThreeDots />
+    </div>
+  );
+};

@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { activePageState, itemsState } from "../../../../store/atoms";
 import { Item, Label } from "../../../../models/Item";
 import { AddNoteItem } from "../../AddNoteItem/AddNoteItem";
+import "./ListViewContent.css";
 
 export const ListViewContent = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
@@ -20,6 +21,20 @@ export const ListViewContent = () => {
     const response = await fetch(`http://localhost:5000/page/${activePage.data?._id}/note`, requestOptions);
     const note = await response.json();
     setItems({ ...items, data: [...items.data, note] });
+  };
+
+  const deleteItem = async (_id: string) => {
+    const requestOptions = {
+      method: "DELETE",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+    };
+    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+    setItems({
+      ...items,
+      data: items.data.filter((item) => {
+        return item._id !== _id;
+      }),
+    });
   };
 
   const updateItem = async (_id: string, item: Item) => {
@@ -68,10 +83,10 @@ export const ListViewContent = () => {
   };
 
   return (
-    <ul className={`${isChecklist ? "checks" : ""}`}>
+    <ul className={`${isChecklist ? "checks items" : "items"}`}>
       <ReactSortable list={[...items.data]} setList={setOrder}>
         {items.data.map((item) => (
-          <ListViewItem item={item} handleCheck={isChecklist ? changeDone : undefined} />
+          <ListViewItem item={item} handleCheck={isChecklist ? changeDone : undefined} onDelete={deleteItem} />
         ))}
       </ReactSortable>
       <AddNoteItem addNoteItem={addNoteItem} />

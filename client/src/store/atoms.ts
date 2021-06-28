@@ -48,7 +48,7 @@ export const activePageState = atom<ActivePageView>({
       _id: "",
       title: "New page",
       user_id: 0,
-      list_page_type: true,
+      isBoardView: false,
       checkboxes: false,
       icon_id: "",
       created_at: null,

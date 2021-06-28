@@ -6,7 +6,7 @@ import { Item, Label } from "../../../models/Item";
 
 export interface BoardData {
   id: number;
-  title: string;
+  label: Label;
   itemsState: RecoilState<PartialItemsView>;
 }
 
@@ -17,9 +17,9 @@ export const BoardView = () => {
   const [itemsDone, setItemsDone] = useRecoilState(itemsStateDone);
 
   const boards: BoardData[] = [
-    { id: 0, title: Label.ToDo, itemsState: itemsStateToDo },
-    { id: 1, title: Label.Doing, itemsState: itemsStateDoing },
-    { id: 2, title: Label.Done, itemsState: itemsStateDone },
+    { id: 0, label: Label.ToDo, itemsState: itemsStateToDo },
+    { id: 1, label: Label.Doing, itemsState: itemsStateDoing },
+    { id: 2, label: Label.Done, itemsState: itemsStateDone },
   ];
 
   useEffect(() => {

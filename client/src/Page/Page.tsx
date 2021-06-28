@@ -23,6 +23,6 @@ export const Page = () => {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  const view = activePage.data?.list_page_type ? <ListView /> : <BoardView />;
+  const view = activePage.data?.isBoardView ? <BoardView /> : <ListView />;
   return <>{view}</>;
 };

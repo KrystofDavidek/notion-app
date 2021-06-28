@@ -51,7 +51,12 @@ app.get("/page/:id/notes", async (req, res) => {
 
 //  Create new note
 app.post("/page/:id/note", async (req, res) => {
-  const newNote = createNote(new ObjectId(req.params.id), req.body.text);
+  let newNote;
+  if (req.body.label) {
+    newNote = createNote(new ObjectId(req.params.id), req.body.text, req.body.label);
+  } else {
+    newNote = createNote(new ObjectId(req.params.id), req.body.text);
+  }
   try {
     const db = client.db("notiondb");
     const result = await db.collection("Note").insertOne(newNote);

@@ -27,7 +27,7 @@ export const Menu = () => {
     const set = () => {
       if (pages.isLoading && dataPages) {
         setPages({ isLoading: false, data: dataPages });
-        setActivePage({ data: { ...dataPages[0], list_page_type: true, checkboxes: true } });
+        setActivePage({ data: { ...dataPages[0], isBoardView: false, checkboxes: false } });
       }
       if (icons.isLoading && dataIcons) {
         setIcons({ isLoading: false, data: dataIcons });

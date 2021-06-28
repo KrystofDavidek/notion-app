@@ -3,7 +3,7 @@ export interface PageData {
   title: string;
   user_id: number;
   icon_id: string;
-  list_page_type: boolean;
+  isBoardView: boolean;
   checkboxes: boolean;
   created_at: number | null;
   modified_at: number | null;

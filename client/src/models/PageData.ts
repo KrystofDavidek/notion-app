@@ -5,7 +5,7 @@ export interface PageData {
   icon_id: string;
   list_page_type: boolean;
   checkboxes: boolean;
-  created_at: number;
+  created_at: number | null;
   modified_at: number | null;
   deleted_at: number | null;
 }

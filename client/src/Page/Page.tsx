@@ -1,20 +1,15 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import useSWR from "swr";
-import {activePageState, itemsStateDoing, itemsStateDone, itemsStateToDo} from "../store/atoms";
+import { activePageState, itemsState } from "../store/atoms";
 import { fetcher } from "../utils/fetcher";
-import { BoardData, BoardView } from "./PageContent/BoardView/BoardView";
+import { BoardView } from "./PageContent/BoardView/BoardView";
 import { ListView } from "./PageContent/ListView/ListView";
 
 export const Page = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
+  const [items, setItems] = useRecoilState(itemsState);
   const { data, error } = useSWR(`http://localhost:5000/page/${activePage.data?._id}/notes`, fetcher);
-  const [items, setItems] = useRecoilState(itemsStateToDo);
-  const boards: BoardData[] = [
-    { id: 0, title: "First", itemsState: itemsStateToDo },
-    { id: 1, title: "Second", itemsState: itemsStateDoing },
-    { id: 2, title: "Third", itemsState: itemsStateDone },
-  ];
 
   useEffect(() => {
     const set = () => {
@@ -28,6 +23,6 @@ export const Page = () => {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  const view = activePage.data?.list_page_type ? <ListView /> : <BoardView boards={boards} />;
+  const view = activePage.data?.list_page_type ? <ListView /> : <BoardView />;
   return <>{view}</>;
 };

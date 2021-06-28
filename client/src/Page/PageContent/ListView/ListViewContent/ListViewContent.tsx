@@ -2,13 +2,25 @@ import React from "react";
 import { ReactSortable } from "react-sortablejs";
 import { ListViewItem } from "./ListItem/ListViewItem";
 import { useRecoilState } from "recoil";
-import { activePageState, itemsStateListView } from "../../../../store/atoms";
+import { activePageState, itemsState } from "../../../../store/atoms";
 import { Item, Label } from "../../../../models/Item";
+import { AddNoteItem } from "../../AddNoteItem/AddNoteItem";
 
 export const ListViewContent = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
-  const [items, setItems] = useRecoilState(itemsStateListView);
+  const [items, setItems] = useRecoilState(itemsState);
   const isChecklist = activePage.data?.checkboxes;
+
+  const addNoteItem = async (noteText: string) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ text: noteText }),
+    };
+    const response = await fetch(`http://localhost:5000/page/${activePage.data?._id}/note`, requestOptions);
+    const note = await response.json();
+    setItems({ ...items, data: [...items.data, note] });
+  };
 
   const updateItem = async (_id: string, item: Item) => {
     const requestOptions = {
@@ -19,9 +31,9 @@ export const ListViewContent = () => {
     await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
   };
 
-  const changeDone = async (id: number, _id: string) => {
+  const changeDone = async (_id: string) => {
     const stateCopy = [...items.data];
-    const itemIndex = stateCopy.findIndex((item) => item.id === id);
+    const itemIndex = stateCopy.findIndex((item) => item._id === _id);
     if (stateCopy[itemIndex].label === Label.Done) {
       stateCopy[itemIndex] = { ...stateCopy[itemIndex], label: Label.ToDo };
     } else {
@@ -62,6 +74,7 @@ export const ListViewContent = () => {
           <ListViewItem item={item} handleCheck={isChecklist ? changeDone : undefined} />
         ))}
       </ReactSortable>
+      <AddNoteItem addNoteItem={addNoteItem} />
     </ul>
   );
 };

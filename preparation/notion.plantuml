@@ -17,7 +17,7 @@ entity Page {
     id: serial
     user_id: integer
     title: varchar
-    list_page_type: bool
+    isBoardView: bool
     checkboxes: bool
     icon_path: varchar
     created_at: datetime

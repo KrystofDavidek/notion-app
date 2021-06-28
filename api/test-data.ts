@@ -7,7 +7,7 @@ export enum Label {
   Done = "Done",
 }
 
-export const createUser = (username:string, password:string) => {
+export const createUser = (username: string, password: string) => {
   return {
     username: username,
     email: "",
@@ -23,7 +23,7 @@ export const createPage = (title: string, userId = null, iconId = "1f5d2-fe0f") 
   return {
     title: title ? title : "New page",
     user_id: userId,
-    list_page_type: true,
+    isBoardView: false,
     checkboxes: false,
     icon_id: iconId,
     created_at: Date.now(),
@@ -32,13 +32,13 @@ export const createPage = (title: string, userId = null, iconId = "1f5d2-fe0f") 
   };
 };
 
-export const createNote = (pageId: ObjectId, text: string) => {
+export const createNote = (pageId: ObjectId, text: string, label?: Label) => {
   return {
     text: text ? text : "New note",
     media_id: 0,
     page_id: pageId,
     order: 0,
-    label: Label.ToDo,
+    label: label ? Label.Done : Label.ToDo,
     created_at: Date.now(),
     modified_at: null,
     deleted_at: null,
@@ -51,6 +51,6 @@ export const createIcon = (emojiData: EmojiData) => {
     originalUnified: emojiData.originalUnified,
     names: emojiData.names,
     emoji: emojiData.emoji,
-    activeSkinTone: emojiData.activeSkinTone    
-  }
-}
+    activeSkinTone: emojiData.activeSkinTone,
+  };
+};

@@ -277,6 +277,43 @@ app.put("/updatePageIcon/:pageId/:iconId", async (req, res) => {
   }
 });
 
+// Switch page to board view 
+app.put("/switchPageToBoardView/:pageId", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: {
+          isBoardView: true,
+        },
+      }
+    );
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
+
+// Switch page to list view 
+app.put("/switchPageToListView/:pageId", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: {
+          isBoardView: false,
+        },
+      }
+    );
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
 async function run() {
   client.connect();
   app.listen(port, () => {

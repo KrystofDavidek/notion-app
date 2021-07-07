@@ -5,6 +5,7 @@ import { PageIconPicker } from "./PageIconPicker";
 import { EmojiData, SKIN_TONE_MEDIUM_DARK } from "../../../models/Icon";
 import { activePageState, itemsState } from "../../../store/atoms";
 import { useRecoilState } from "recoil";
+import { fetcher } from "../../../utils/fetcher";
 
 export const PageItem: React.FC<{ page: PageData; icons: EmojiData[]; updatePageIcons: any }> = ({
   page,
@@ -33,12 +34,7 @@ export const PageItem: React.FC<{ page: PageData; icons: EmojiData[]; updatePage
 
   const setPage = async (event: React.MouseEvent) => {
     setActivePage({ data: page });
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-    };
-    const response = await fetch(`http://localhost:5000/page/${page._id}/notes`, requestOptions);
-    const notes = await response.json();
+    const notes = await fetcher(`page/${page._id}/notes`);
     setItems({ ...items, data: notes });
   };
 

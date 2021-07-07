@@ -277,7 +277,7 @@ app.put("/updatePageIcon/:pageId/:iconId", async (req, res) => {
   }
 });
 
-// Switch page to board view 
+// Switch page to board views
 app.put("/switchPageToBoardView/:pageId", async (req, res) => {
   try {
     const db = client.db("notiondb");
@@ -295,8 +295,7 @@ app.put("/switchPageToBoardView/:pageId", async (req, res) => {
   }
 });
 
-
-// Switch page to list view 
+// Switch page to list view
 app.put("/switchPageToListView/:pageId", async (req, res) => {
   try {
     const db = client.db("notiondb");

@@ -1,0 +1,35 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.switchButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.switchButtons__board-active, .switchButtons__board-inactive, .switchButtons__list-inactive, .switchButtons__list-active {
+    border: black solid 0.1em;
+    border-radius: 1rem;
+    text-decoration: none;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.switchButtons__board-active {
+    background-color: #A0E494;
+}
+
+.switchButtons__board-inactive {
+    background-color: #D1D0D0
+}
+
+.switchButtons__list-inactive {
+    background-color: #D1D0D0
+}
+
+.switchButtons__list-active {
+    background-color: #A0E494;
+}

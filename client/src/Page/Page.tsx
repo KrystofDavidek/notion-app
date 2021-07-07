@@ -6,6 +6,7 @@ import { fetcher, putFetcher } from "../utils/fetcher";
 import { BoardView } from "./PageContent/BoardView/BoardView";
 import { ListView } from "./PageContent/ListView/ListView";
 import "./Page.css";
+import { Item } from "../models/Item";
 
 export const Page = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
@@ -15,7 +16,7 @@ export const Page = () => {
   useEffect(() => {
     const set = () => {
       if (items.isLoading && data) {
-        setItems({ isLoading: false, data: data });
+        setItems({ isLoading: false, data: [...data].sort(compareItems) });
       }
     };
     set();
@@ -23,6 +24,16 @@ export const Page = () => {
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+
+  const compareItems = (a: Item, b: Item) => {
+    if (a.order < b.order) {
+      return -1;
+    }
+    if (a.order > b.order) {
+      return 1;
+    }
+    return 0;
+  };
 
   const switchView = async (boardView: boolean) => {
     try {

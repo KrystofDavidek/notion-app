@@ -6,6 +6,7 @@ import { activePageState, itemsState } from "../../../../store/atoms";
 import { Item, Label } from "../../../../models/Item";
 import { AddNoteItem } from "../../AddNoteItem/AddNoteItem";
 import "./ListViewContent.css";
+import { deleteFetcher, postFetcher, putFetcher } from "../../../../utils/fetcher";
 
 export const ListViewContent = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
@@ -13,22 +14,12 @@ export const ListViewContent = () => {
   const isChecklist = activePage.data?.checkboxes;
 
   const addNoteItem = async (noteText: string) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ text: noteText }),
-    };
-    const response = await fetch(`http://localhost:5000/page/${activePage.data?._id}/note`, requestOptions);
-    const note = await response.json();
+    const note = await postFetcher(`page/${activePage.data?._id}/note`, JSON.stringify({ text: noteText }));
     setItems({ ...items, data: [...items.data, note] });
   };
 
   const deleteItem = async (_id: string) => {
-    const requestOptions = {
-      method: "DELETE",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-    };
-    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+    await deleteFetcher(`page/${activePage.data?._id}/note/${_id}`);
     setItems({
       ...items,
       data: items.data.filter((item) => {
@@ -38,12 +29,7 @@ export const ListViewContent = () => {
   };
 
   const updateItem = async (_id: string, item: Item) => {
-    const requestOptions = {
-      method: "PUT",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    };
-    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+    await putFetcher(`page/${activePage.data?._id}/note/${_id}`, JSON.stringify(item));
   };
 
   const changeDone = async (_id: string) => {

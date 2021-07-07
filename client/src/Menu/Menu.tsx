@@ -5,7 +5,7 @@ import { AddPageItem } from "./AddPageItem/AddPageItem";
 import { useRecoilState } from "recoil";
 import { activePageState, pagesState, iconsState } from "../store/atoms";
 import useSWR from "swr";
-import { fetcher } from "../utils/fetcher";
+import { fetcher, postFetcher, putFetcher } from "../utils/fetcher";
 import ReactLogo from "../assets/app-icon.svg";
 import { EmojiData } from "../models/Icon";
 
@@ -20,14 +20,14 @@ export const Menu = () => {
     return { data: data, error: error };
   };
 
-  const { data: dataPages, error: pagesError } = getData("http://localhost:5000/pages");
-  const { data: dataIcons, error: iconsError } = getData("http://localhost:5000/pageIcons");
+  const { data: dataPages, error: pagesError } = getData("pages");
+  const { data: dataIcons, error: iconsError } = getData("pageIcons");
 
   useEffect(() => {
     const set = () => {
       if (pages.isLoading && dataPages) {
         setPages({ isLoading: false, data: dataPages });
-        setActivePage({ data: { ...dataPages[0], isBoardView: false, checkboxes: false } });
+        setActivePage({ data: dataPages[0] });
       }
       if (icons.isLoading && dataIcons) {
         setIcons({ isLoading: false, data: dataIcons });
@@ -37,13 +37,7 @@ export const Menu = () => {
   });
 
   const addPageItem = async (pageTitle: string) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ title: pageTitle }),
-    };
-    const response = await fetch("http://localhost:5000/page", requestOptions);
-    const page = await response.json();
+    const page = await postFetcher("page", JSON.stringify({ title: pageTitle }));
     setPages({ isLoading: false, data: [...pages.data, page] });
   };
 
@@ -52,13 +46,8 @@ export const Menu = () => {
     if (iconRes === undefined) {
       createPageIcon(icon);
     }
-    const requestOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ iconId: icon.unified }),
-    };
     try {
-      await fetch(`http://localhost:5000/updatePageIcon/${pageId}/${icon.unified}`, requestOptions);
+      await putFetcher(`updatePageIcon/${pageId}/${icon.unified}`, JSON.stringify({ iconId: icon.unified }));
     } catch {
       throw Error("Updating icon was not successfull.");
     }
@@ -71,13 +60,7 @@ export const Menu = () => {
   };
 
   const createPageIcon = async (emojiData: EmojiData) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ emojiData }),
-    };
-    const response = await fetch("http://localhost:5000/icon", requestOptions);
-    const icon = await response.json();
+    const icon = await postFetcher("icon", JSON.stringify({ emojiData }));
     setIcons({ isLoading: false, data: [...icons.data, icon] });
   };
 

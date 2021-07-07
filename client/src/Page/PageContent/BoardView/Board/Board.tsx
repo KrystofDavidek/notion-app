@@ -3,33 +3,27 @@ import "./style.css";
 import { ReactSortable } from "react-sortablejs";
 import { BoardData } from "../BoardView";
 import { Card } from "./Card/Card";
-import { RecoilState, useRecoilState } from "recoil";
-import { activePageState, ItemsView } from "../../../../store/atoms";
+import { useRecoilState } from "recoil";
+import { activePageState } from "../../../../store/atoms";
 import { Item, Label } from "../../../../models/Item";
 import { AddNoteItem } from "../../AddNoteItem/AddNoteItem";
+import { deleteFetcher, postFetcher, putFetcher } from "../../../../utils/fetcher";
 
 export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
   const [items, setItems] = useRecoilState(board.itemsState);
 
   const addNoteItem = async (noteText: string) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body:
-        board.label === Label.Done ? JSON.stringify({ text: noteText, label: Label.Done }) : JSON.stringify({ text: noteText }),
-    };
-    const response = await fetch(`http://localhost:5000/page/${activePage.data?._id}/note`, requestOptions);
+    const response = await postFetcher(
+      `page/${activePage.data?._id}/note`,
+      board.label === Label.Done ? JSON.stringify({ text: noteText, label: Label.Done }) : JSON.stringify({ text: noteText })
+    );
     const note = await response.json();
     setItems({ ...items, data: [...items.data, note] });
   };
 
   const deleteItem = async (_id: string) => {
-    const requestOptions = {
-      method: "DELETE",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-    };
-    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+    await deleteFetcher(`page/${activePage.data?._id}/note/${_id}`);
     setItems({
       ...items,
       data: items.data.filter((item) => {
@@ -39,12 +33,7 @@ export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   };
 
   const updateItem = async (_id: string, item: Item) => {
-    const requestOptions = {
-      method: "PUT",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    };
-    await fetch(`http://localhost:5000/page/${activePage.data?._id}/note/${_id}`, requestOptions);
+    await putFetcher(`page/${activePage.data?._id}/note/${_id}`, JSON.stringify(item));
   };
 
   const updateFromBoard = (val: Item[]) => {

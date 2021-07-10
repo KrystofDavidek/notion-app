@@ -54,18 +54,12 @@ export const Page = () => {
       <h1>{activePage.data.title}</h1>
       <div className="switchButtons">
         <button
-          onClick={() => switchView(true)}
-          type="button"
-          className={activePage.data.isBoardView ? "switchButtons__board-active" : "switchButtons__board-inactive"}
-        >
-          Board View
+          onClick={() => switchView(true)} type="button"
+          className={activePage.data.isBoardView ? "switchButtons__board-active" : "switchButtons__board-inactive"}>Board View
         </button>
         <button
-          onClick={() => switchView(false)}
-          type="button"
-          className={activePage.data.isBoardView ? "switchButtons__list-inactive" : "switchButtons__list-active"}
-        >
-          List View
+          onClick={() => switchView(false)} type="button"
+          className={activePage.data.isBoardView ? "switchButtons__list-inactive" : "switchButtons__list-active"}>List View
         </button>
       </div>
       {view}

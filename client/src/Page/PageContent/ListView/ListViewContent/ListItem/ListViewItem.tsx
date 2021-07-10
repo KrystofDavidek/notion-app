@@ -4,11 +4,10 @@ import { ItemModal } from "../../../ItemModal/ItemModal";
 import { ItemCheck } from "./ItemCheck/ItemCheck";
 import "./ListViewItem.css";
 
-export const ListViewItem: React.FC<{ item: Item; handleCheck?: (_id: string) => void; onDelete: any }> = (
-  { item, handleCheck, onDelete },
-  handleTextChange: (text: string, _id: string) => void
+export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => void; onDelete: any; checkboxesOn: boolean }> = (
+  { item, handleCheck, onDelete, checkboxesOn }, handleTextChange: (text: string, _id: string) => void
 ) => {
-  if (handleCheck !== undefined)
+  if (checkboxesOn)
     return (
       <li className="item" key={item._id}>
         <ItemCheck handleCheck={handleCheck} _id={item._id} value={item.label}>
@@ -20,7 +19,7 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck?: (_id: string) =>
 
   return (
     <li className="item" key={item._id}>
-      <p>{item.text}</p>
+      <p className="item__text">{item.text}</p>
       <ItemModal item={item} onDelete={onDelete} />
     </li>
   );

@@ -313,6 +313,40 @@ app.put("/switchPageToListView/:pageId", async (req, res) => {
   }
 });
 
+app.put("/switchCheckboxesOn/:pageId", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: {
+          checkboxes: true,
+        },
+      }
+    );
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
+app.put("/switchCheckboxesOff/:pageId", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    await db.collection("Page").updateOne(
+      { _id: new ObjectId(req.params.pageId) },
+      {
+        $set: {
+          checkboxes: false,
+        },
+      }
+    );
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
 async function run() {
   client.connect();
   app.listen(port, () => {

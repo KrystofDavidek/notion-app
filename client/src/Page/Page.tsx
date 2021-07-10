@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import useSWR from "swr";
-import { activePageState, itemsState } from "../store/atoms";
+import { activePageState, itemsState, iconsState } from "../store/atoms";
 import { fetcher, putFetcher } from "../utils/fetcher";
 import { BoardView } from "./PageContent/BoardView/BoardView";
 import { ListView } from "./PageContent/ListView/ListView";
@@ -11,19 +11,34 @@ import { Item } from "../models/Item";
 export const Page = () => {
   const [activePage, setActivePage] = useRecoilState(activePageState);
   const [items, setItems] = useRecoilState(itemsState);
-  const { data, error } = useSWR(`page/${activePage.data?._id}/notes`, fetcher);
+  const [pageIcons, setPageIcons] = useRecoilState(iconsState);
+
+  const getData = (endpoint: string) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data, error } = useSWR(endpoint, fetcher);
+    return { data: data, error: error };
+  };
+
+  const { data: dataIcons, error: iconError } = getData("pageIcons");
+  const { data: dataItems, error: itemsError} = getData(`page/${activePage.data?._id}/notes`)
 
   useEffect(() => {
     const set = () => {
-      if (items.isLoading && data) {
-        setItems({ isLoading: false, data: [...data].sort(compareItems) });
+      if (items.isLoading && dataItems) {
+        setItems({ isLoading: false, data: [...dataItems].sort(compareItems) });
+      }
+      if (pageIcons.isLoading && dataIcons) {
+        setPageIcons({ isLoading: false, data: dataIcons });
       }
     };
     set();
   });
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (itemsError) return <div>failed to load</div>;
+  if (!dataItems) return <div>loading...</div>;
+
+  if (iconError) return <div>failed to load</div>;
+  if (!dataIcons) return <div>loading...</div>;
 
   const compareItems = (a: Item, b: Item) => {
     if (a.order < b.order) {
@@ -48,10 +63,15 @@ export const Page = () => {
     setActivePage({ data: newPage });
   };
 
+  const activePageIcon = pageIcons.data.find((icon) => icon.unified === activePage.data.icon_id)?.emoji;
+
   const view = activePage.data?.isBoardView ? <BoardView /> : <ListView />;
   return (
     <div className="page">
-      <h1>{activePage.data.title}</h1>
+      <div className="page__header">
+        <div className="page__icon">{activePageIcon}</div>
+        <h1>{activePage.data.title}</h1>
+      </div>
       <div className="switchButtons">
         <button
           onClick={() => switchView(true)} type="button"

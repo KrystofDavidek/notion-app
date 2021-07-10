@@ -313,6 +313,7 @@ app.put("/switchPageToListView/:pageId", async (req, res) => {
   }
 });
 
+// Change Page's parameter checkboxes to true
 app.put("/switchCheckboxesOn/:pageId", async (req, res) => {
   try {
     const db = client.db("notiondb");
@@ -330,6 +331,7 @@ app.put("/switchCheckboxesOn/:pageId", async (req, res) => {
   }
 });
 
+// Change Page's parameter checkboxes to false
 app.put("/switchCheckboxesOff/:pageId", async (req, res) => {
   try {
     const db = client.db("notiondb");
@@ -344,6 +346,18 @@ app.put("/switchCheckboxesOff/:pageId", async (req, res) => {
     res.send("OK");
   } catch (err) {
     res.status(400).json({ error: "Problem with modification" });
+  }
+});
+
+//  Get icon by id
+app.get("/icon/:id", async (req, res) => {
+  try {
+    const db = client.db("notiondb");
+    const query = { unified: req.params.id };
+    const icon = await db.collection("PageIcon").findOne(query);
+    res.send(icon);
+  } catch (err) {
+    res.status(400).json({ error: "Icon does not exists" });
   }
 });
 

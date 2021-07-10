@@ -2,6 +2,17 @@
     display: flex;
     flex-direction: column;
     padding: 1rem 1rem 0rem 1rem;
+    background-color: #FAF1DA;
+}
+
+.page__header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.page__icon {
+    font-size: 2rem;
 }
 
 .switchButtons {
@@ -9,6 +20,10 @@
     flex-direction: row;
     justify-content: space-evenly;
     padding: 1rem;
+}
+
+.switchButtons__board-active:hover, .switchButtons__board-inactive:hover, .switchButtons__list-inactive:hover, .switchButtons__list-active:hover {
+    transform: scale(1.05);
 }
 
 .switchButtons__board-active, .switchButtons__board-inactive, .switchButtons__list-inactive, .switchButtons__list-active {

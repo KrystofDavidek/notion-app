@@ -10,7 +10,7 @@
 }
 
 .menu__submit:hover {
-    background-color: azure;
+    background-color: rgb(243, 178, 12);
     border-radius: 0.5rem;
 }
 

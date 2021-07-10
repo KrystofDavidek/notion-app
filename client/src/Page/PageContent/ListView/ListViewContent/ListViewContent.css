@@ -14,4 +14,9 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  background-color: #D8EDD4;
+}
+
+.checkbox-container {
+  background-color: #FAF1DA;
 }

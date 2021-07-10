@@ -6,7 +6,7 @@ import "./Container.css";
 
 export const Container: React.FC<{ username: string }> = (username) => {
   return (
-    <div className="container">
+    <div className="notion-container">
       <RecoilRoot>
         <Menu />
         <Page />

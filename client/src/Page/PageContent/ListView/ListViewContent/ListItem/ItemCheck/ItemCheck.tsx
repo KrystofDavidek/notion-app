@@ -1,6 +1,6 @@
 import React from "react";
 import { Label } from "../../../../../../models/Item";
-import "./style.css";
+import "./ItemCheck.css";
 
 export const ItemCheck: React.FC<{
   children: React.ReactNode;

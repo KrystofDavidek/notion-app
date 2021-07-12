@@ -44,14 +44,6 @@ export const ListViewContent = () => {
     await updateItem(_id, stateCopy[itemIndex]);
   };
 
-  const changeText = async (id: number, value: string, _id: string) => {
-    const stateCopy = [...items.data];
-    const itemIndex = stateCopy.findIndex((item) => item.id === id);
-    stateCopy[itemIndex] = { ...stateCopy[itemIndex], text: value };
-    setItems({ ...items, data: stateCopy });
-    await updateItem(_id, stateCopy[itemIndex]);
-  };
-
   const setOrder = (val: Item[]) => {
     const stateCopy = val;
     if (!stateCopy.some((o) => o.hasOwnProperty("chosen"))) {
@@ -98,7 +90,7 @@ export const ListViewContent = () => {
       <ul className={`${activePage.data?.checkboxes ? "checks items" : "items"}`}>
         <ReactSortable className="item-list" list={[...items.data]} setList={setOrder}>
           {items.data.map((item) => (
-            <ListViewItem key={item._id} item={item} handleCheck={changeDone} onDelete={deleteItem} checkboxesOn={activePage.data.checkboxes} />
+            <ListViewItem key={item._id} item={item} handleCheck={changeDone} onDelete={deleteItem} checkboxesOn={activePage.data.checkboxes}/>
           ))}
         </ReactSortable>
       </ul>

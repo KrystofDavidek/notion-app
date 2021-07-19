@@ -8,6 +8,7 @@ import "./ItemModal.css";
 
 export const ItemModal: React.FC<{ item: Item; onDelete: any }> = ({ item, onDelete }) => {
   const [show, setShow] = useState(false);
+  const [urlInputShow, setUrlInputShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -15,6 +16,10 @@ export const ItemModal: React.FC<{ item: Item; onDelete: any }> = ({ item, onDel
     setShow(false);
     onDelete(item._id);
   };
+
+  const showImageUrlInput = () => {
+    urlInputShow ? setUrlInputShow(false) : setUrlInputShow(true);
+  }
 
   return (
     <>
@@ -48,6 +53,15 @@ export const ItemModal: React.FC<{ item: Item; onDelete: any }> = ({ item, onDel
           <Button variant="primary" onClick={handleClose}>
             Save Changes
           </Button>
+          <Button variant="secondary" onClick={showImageUrlInput}>
+            Import image
+          </Button>
+          {urlInputShow ?
+          <form className="modal__image-url-form modal-form">
+            <label htmlFor="imageURL" className="modal-form__label">URL: </label>
+            <input id="imageURL" className="modal-form__input" type="text" placeholder="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"></input>
+            <input type="submit" value="UPLOAD"></input>
+          </form> : null}
         </Modal.Footer>
       </Modal>
     </>

@@ -82,7 +82,7 @@ export const ListViewContent = () => {
     setActivePage({ data: newPage });
   }
 
-  const CheckBoxInput = checkboxmode ? <input type="checkbox" onChange={switchCheckboxes} checked/> : <input type="checkbox" onChange={switchCheckboxes}/>;
+  const CheckBoxInput = checkboxmode ? <input type="checkbox" onChange={switchCheckboxes} checked /> : <input type="checkbox" onChange={switchCheckboxes} />;
 
   return (
     <div className="note-content">

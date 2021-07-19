@@ -10,3 +10,14 @@
 .item__text:before {
     content:"• ";
 }
+
+.resizable-box__image {
+  height: 100%;
+  width: 100%;
+}
+
+.item__resizable-box {
+  width: 10rem;
+  resize: both;
+  overflow: auto;
+}

@@ -55,7 +55,7 @@ export const Login: React.FC<{ userLogin: any }> = ({ userLogin }) => {
     }
     try {
       const response = await postFetcher(`user/${usernameSU}/${passwordSU}`);
-      const msg = response.ok
+      const msg = response === "OK"
         ? "You have successfully signed up. Proceed to login."
         : "User was not created successfully. Wrong format.";
       setSignedUpMessage(msg);

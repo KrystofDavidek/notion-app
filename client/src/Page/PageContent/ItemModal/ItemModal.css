@@ -1,3 +1,20 @@
 .modal__bold-text {
   font-weight: bold;
 }
+
+.modal__image-url-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 0.2rem;
+}
+
+.modal-form__input {
+  width: 100%;
+}
+
+.modal-form__label {
+  margin: 0rem;
+  display: flex;
+  align-items: center;
+}

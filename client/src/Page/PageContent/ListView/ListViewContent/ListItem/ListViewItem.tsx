@@ -20,6 +20,9 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => 
   return (
     <li className="item" key={item._id}>
       <p className="item__text">{item.text}</p>
+      <div className="item__resizable-box resizable-box">
+        <img className="resizable-box__image" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"></img>
+      </div>
       <ItemModal item={item} onDelete={onDelete} />
     </li>
   );

@@ -42,6 +42,7 @@ export const createNote = (pageId: ObjectId, text: string, label?: Label) => {
     created_at: Date.now(),
     modified_at: null,
     deleted_at: null,
+    image_id: null
   };
 };
 
@@ -54,3 +55,9 @@ export const createIcon = (emojiData: EmojiData) => {
     activeSkinTone: emojiData.activeSkinTone,
   };
 };
+
+export const createImage = (imageUrl: string) => {
+  return {
+    url: imageUrl
+  }
+}

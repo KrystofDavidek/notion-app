@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
-import { createNote, createPage, createUser, createIcon } from "./test-data";
+import { createNote, createPage, createUser, createIcon, createImage } from "./test-data";
 
 const app = express();
 const port = 5000;
@@ -185,8 +185,8 @@ app.post("/user/:username/:password", async (req, res) => {
   const newUser = createUser(req.params.username, req.params.password);
   try {
     const db = client.db("notiondb");
-    const id = (await db.collection("User").insertOne(newUser)).insertedId;
-    res.send(id);
+    await db.collection("User").insertOne(newUser);
+    res.send("OK");
   } catch (err) {
     res.status(400).json({ error: "User was NOT inserted succesfully" });
   }
@@ -358,6 +358,25 @@ app.get("/icon/:id", async (req, res) => {
     res.send(icon);
   } catch (err) {
     res.status(400).json({ error: "Icon does not exists" });
+  }
+});
+
+//  Create new image
+app.post("/image/:url/:noteId", async (req, res) => {
+  const db = client.db("notiondb");
+  const newImage = createImage(req.params.url);
+  try {
+    const result = await db.collection("NoteImage").insertOne(newImage);
+    const image = result.ops[0];
+    await db.collection("Note").updateOne(
+      { _id: new ObjectId(req.params.noteId) },
+      {
+        $set: { imageId: image.id },
+      }
+    );  
+    res.send("OK");
+  } catch (err) {
+    res.status(400).json({error: "Image was NOT inserted succesfully"});
   }
 });
 

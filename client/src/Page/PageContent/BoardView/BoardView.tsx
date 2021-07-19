@@ -3,6 +3,7 @@ import { Board } from "./Board/Board";
 import { RecoilState, useRecoilState } from "recoil";
 import { itemsState, itemsStateDoing, itemsStateDone, itemsStateToDo, ItemsView, PartialItemsView } from "../../../store/atoms";
 import { Item, Label } from "../../../models/Item";
+import "./BoardView.css"
 
 export interface BoardData {
   id: number;
@@ -51,7 +52,7 @@ export const BoardView = () => {
   }, [items]);
 
   return (
-    <div>
+    <div className="board-container">
       {boards.map((board) => (
         <Board key={board.id} board={board} />
       ))}

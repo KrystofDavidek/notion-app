@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./Board.css";
 import { ReactSortable } from "react-sortablejs";
 import { BoardData } from "../BoardView";
 import { Card } from "./Card/Card";
@@ -14,12 +14,13 @@ export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   const [items, setItems] = useRecoilState(board.itemsState);
 
   const addNoteItem = async (noteText: string) => {
-    const response = await postFetcher(
+    console.log(activePage.data?._id);
+    console.log(board.label === Label.Done ? JSON.stringify({ text: noteText, label: Label.Done }) : JSON.stringify({ text: noteText }));
+    const data = await postFetcher(
       `page/${activePage.data?._id}/note`,
       board.label === Label.Done ? JSON.stringify({ text: noteText, label: Label.Done }) : JSON.stringify({ text: noteText })
     );
-    const note = await response.json();
-    setItems({ ...items, data: [...items.data, note] });
+    setItems({ ...items, data: [...items.data, data] });
   };
 
   const deleteItem = async (_id: string) => {
@@ -54,13 +55,14 @@ export const Board: React.FC<{ board: BoardData }> = ({ board }) => {
   };
 
   return (
-    <>
+    <div className="Board">
+      <span className={`Board__Label-${board.label}`}>{board.label}</span>
       <ReactSortable list={items.data} setList={updateFromBoard} group="board" className="board">
         {items.data.map((item) => (
           <Card key={item._id} item={item} onDelete={deleteItem} />
         ))}
       </ReactSortable>
       <AddNoteItem addNoteItem={addNoteItem} />
-    </>
+    </div>
   );
 };

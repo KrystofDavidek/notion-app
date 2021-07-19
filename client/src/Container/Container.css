@@ -1,9 +1,9 @@
-.container {
+.notion-container {
   display: grid;
   grid-template-areas: "menu pages";
   grid-template-rows: 100%;
   height: 100vh;
-  grid-template-columns: 30% auto;
+  grid-template-columns: 20% auto;
   margin: 0 !important;
   padding: 0 !important;
 }

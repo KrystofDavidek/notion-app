@@ -1,0 +1,8 @@
+.board-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1rem;
+    flex-grow: 1;
+    height: 70vh;
+}

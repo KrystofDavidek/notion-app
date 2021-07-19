@@ -1,0 +1,32 @@
+.Board {
+    display: flex;
+    flex-direction: column;
+    background-color: #D8EDD4;
+    border-radius: 0.5rem;
+    border: 0.1rem black solid;
+    flex-grow: 1;
+}
+
+.Board__Label-To-do, .Board__Label-Doing, .Board__Label-Done {
+    border-radius: 0.5rem;
+    align-self: center;
+    padding: 0.1rem 1rem 0.1rem 1rem;
+    border: 0.1rem black solid;
+    margin: 1rem;
+}
+
+.Board__Label-To-do {
+    background-color: pink;
+}
+
+.Board__Label-Doing {
+    background-color: #D1D0D0;
+}
+
+.Board__Label-Done {
+    background-color: greenyellow;
+}
+
+.board {
+    overflow: auto;
+}

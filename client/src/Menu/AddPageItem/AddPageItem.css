@@ -1,16 +1,16 @@
 .menu__new-page-form {
     display: flex;
-    margin: 1rem 1rem 1rem 1rem;
+    margin: 0.5rem;
     align-items: center;
     border-radius: 0.5rem;
 }
 
 .menu__new-page-form:hover {
-    background-color: #D8EDD4;
+    background-color: rgb(243, 227, 7);
 }
 
 .menu__submit:hover {
-    background-color: azure;
+    background-color: rgb(243, 178, 12);
     border-radius: 0.5rem;
 }
 
@@ -25,11 +25,9 @@
 }
 
 .menu__input {
-    width: 100%;
-    height: 100%;
     background-color: transparent;
     border: none;
-    font-size: medium;
+    font-size: larger;
     padding-left: 1rem;
 }
 

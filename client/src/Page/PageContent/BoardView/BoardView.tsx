@@ -52,10 +52,14 @@ export const BoardView = () => {
   }, [items]);
 
   return (
-    <div className="board-container">
-      {boards.map((board) => (
-        <Board key={board.id} board={board} />
-      ))}
-    </div>
+      <div className="page__content">
+        <span className="page-type">Board view</span>
+        <hr className="horizontal-line"/>
+        <div className="board-container page__content">
+          {boards.map((board) => (
+              <Board key={board.id} board={board}/>
+          ))}
+        </div>
+      </div>
   );
 };

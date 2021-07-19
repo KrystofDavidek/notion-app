@@ -6,7 +6,7 @@
 }
 
 .menu__new-page-form:hover {
-    background-color: #D8EDD4;
+    background-color: var(--page-content-background);
 }
 
 .menu__submit:hover {
@@ -34,9 +34,9 @@
 }
 
 .menu__input::-webkit-input-placeholder {
-    color:black;
+    color: var(--border-color);
 }
 
 menu__input:-moz-placeholder {
-    color:black;
+    color: var(--border-color);
 }

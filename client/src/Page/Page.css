@@ -1,8 +1,9 @@
 .page {
     display: flex;
     flex-direction: column;
-    padding: 1rem 1rem 0rem 1rem;
-    background-color: #FAF1DA;
+    padding: 1rem 1rem 0 1rem;
+    background-color: var(--primary-background);
+    overflow-x: auto;
 }
 
 .page__header {
@@ -27,26 +28,26 @@
 }
 
 .switchButtons__board-active, .switchButtons__board-inactive, .switchButtons__list-inactive, .switchButtons__list-active {
-    border: black solid 0.1em;
+    border: var(--border-color) solid 0.1em;
     border-radius: 1rem;
     text-decoration: none;
     padding: 0.5rem 5rem 0.5rem 5rem;
 }
 
 .switchButtons__board-active {
-    background-color: #A0E494;
+    background-color: var(--primary-highlight);
 }
 
 .switchButtons__board-inactive {
-    background-color: #D1D0D0
+    background-color: var(--primary-item-background)
 }
 
 .switchButtons__list-inactive {
-    background-color: #D1D0D0
+    background-color: var(--primary-item-background)
 }
 
 .switchButtons__list-active {
-    background-color: #A0E494;
+    background-color: var(--primary-highlight);
 }
 
 .checkbox-container {
@@ -78,11 +79,11 @@
 }
 
 input:checked + .slider {
-    background-color: #A0E494;
+    background-color: var(--primary-highlight);
 }
   
 input:focus + .slider {
-    box-shadow: 0 0 1px #A0E494;
+    box-shadow: 0 0 1px var(--primary-highlight);
 }
 
 input:checked + .slider:before {
@@ -123,7 +124,72 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--default-gray);
     -webkit-transition: .4s;
     transition: .4s;
+}
+
+.switchButtons__icon {
+    display: none;
+}
+
+
+@media screen and (max-width: 799px) {
+    .page {
+        display: grid;
+        grid-template-areas:
+                "page__header"
+                "page__content"
+                "switchButtons";
+        grid-template-rows: 10% auto 15%;
+        grid-template-columns: 100%;
+        padding: 0;
+        background-color: var(--primary-background);
+    }
+
+    .switchButtons {
+        grid-area: switchButtons;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        background-color: var(--primary-highlight);
+        border: 0.1rem var(--border-color) solid;
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    .page__icon {
+        display: none;
+    }
+
+    .page__header {
+        background-color: var(--primary-highlight);
+        border: 0.1rem var(--border-color) solid;
+        grid-area: page__header;
+    }
+
+    .page__title {
+        font-size: 4rem;
+        margin-left: 2rem;
+    }
+
+    .switchButtons__name {
+        display: none;
+    }
+
+    .switchButtons__icon {
+        display: inline;
+        height: 3rem;
+    }
+
+    .switchButtons__board-active, .switchButtons__board-inactive, .switchButtons__list-inactive, .switchButtons__list-active {
+        border: none;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+
+    .checkbox-container {
+        align-self: self-end;
+        margin: 1em 1em 0 0;
+    }
 }

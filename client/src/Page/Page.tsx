@@ -70,16 +70,22 @@ export const Page = () => {
     <div className="page">
       <div className="page__header">
         <div className="page__icon">{activePageIcon}</div>
-        <h1>{activePage.data.title}</h1>
+        <h1 className={"page__title"}>{activePage.data.title}</h1>
       </div>
       <div className="switchButtons">
         <button
-          onClick={() => switchView(true)} type="button"
-          className={activePage.data.isBoardView ? "switchButtons__board-active" : "switchButtons__board-inactive"}>Board View
+            onClick={() => switchView(true)} type="button"
+            className={activePage.data.isBoardView ? "switchButtons__board-active" : "switchButtons__board-inactive"}>
+          <span className="switchButtons__name">Board View</span>
+          <img className="switchButtons__icon"
+               src={"https://icons.getbootstrap.com/assets/icons/layout-three-columns.svg"} alt="Board layout"/>
         </button>
         <button
-          onClick={() => switchView(false)} type="button"
-          className={activePage.data.isBoardView ? "switchButtons__list-inactive" : "switchButtons__list-active"}>List View
+            onClick={() => switchView(false)} type="button"
+            className={activePage.data.isBoardView ? "switchButtons__list-inactive" : "switchButtons__list-active"}>
+          <span className="switchButtons__name">List View</span>
+          <img className="switchButtons__icon" src={"https://icons.getbootstrap.com/assets/icons/list-ul.svg"}
+               alt="List layout"/>
         </button>
       </div>
       {view}

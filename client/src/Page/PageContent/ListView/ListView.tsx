@@ -3,8 +3,8 @@ import { ListViewContent } from "./ListViewContent/ListViewContent";
 
 export const ListView = () => {
   return (
-    <>
-      <ListViewContent />
-    </>
+      <div className="page__content">
+          <ListViewContent/>
+      </div>
   );
 };

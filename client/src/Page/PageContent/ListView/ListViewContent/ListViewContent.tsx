@@ -79,6 +79,7 @@ export const ListViewContent = () => {
   return (
     <div className="note-content">
       <div className="checkbox-container">
+        <span className="page-type">List view</span>
         <span className="checkbox-container__label">Checkboxes</span>
         <label className="switch">
           {CheckBoxInput}

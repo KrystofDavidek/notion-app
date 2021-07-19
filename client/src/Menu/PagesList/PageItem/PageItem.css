@@ -1,25 +1,26 @@
-.page-item{
-    background-color: #D8EDD4;
+.page-item {
+    background-color: #E5E5E5;
     height: 3em;
     width: auto;
     margin: 0 1em 1em 1em;
-    border: black solid 0.1em;
+    border: var(--border-color) solid 0.1em;
     border-radius: 0.5em;
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: black;
+    color: var(--border-color);
     transition: all 250ms;
 }
 
-.content__title{
+.content__title {
     margin-left: 1em;
+    width: 100%;
+    overflow: hidden;
 }
 
 .page-item__content {
     display: flex;
     flex-direction: row;
-    margin-left: 1rem;
     align-items: center;
 }
 
@@ -27,24 +28,34 @@
     font-size: 2rem;
 }
 
-.content__icon:hover {
-    background-color: transparent;
-    transform: scale(1.3);
-    cursor: pointer;
-}
 
 .page-item:hover {
     transform: scale(1.05);
     animation: glow 0.5s ease-in forwards;
     text-decoration: none;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 @keyframes glow {
     from {
-        background-color: white;
+        background-color: var(--page-content-background);
     }
     to {
-        background-color: white;
+        background-color: var(--page-content-background);
+    }
+}
+
+
+@media screen and (min-width: 800px) {
+    .content__icon:hover {
+        background-color: transparent;
+        transform: scale(1.3);
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 799px) {
+    .content__icon {
+        display: none;
     }
 }

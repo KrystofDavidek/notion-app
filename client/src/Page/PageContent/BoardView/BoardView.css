@@ -5,4 +5,24 @@
     gap: 1rem;
     flex-grow: 1;
     height: 70vh;
+    overflow-x: scroll;
+}
+
+.page-type {
+    display: none;
+}
+
+@media screen and (max-width: 799px) {
+    .page__content {
+        grid-area: page__content;
+    }
+
+    .board-container {
+        justify-content: space-between;
+    }
+
+    .page-type {
+        display: inline;
+        margin-left: 1em;
+    }
 }

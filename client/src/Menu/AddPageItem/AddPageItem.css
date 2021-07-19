@@ -6,22 +6,12 @@
 }
 
 .menu__new-page-form:hover {
-    background-color: rgb(243, 227, 7);
+    background-color: var(--page-content-background);
 }
 
 .menu__submit:hover {
-    background-color: rgb(243, 178, 12);
+    background-color: var(--page-content-background);
     border-radius: 0.5rem;
-}
-
-.menu__submit {
-    background: linear-gradient(#000,#000), linear-gradient(#000,#000);
-    background-position:center;
-    background-size: 50% 2px,2px 50%;
-    background-repeat:no-repeat;
-    height: 3rem;
-    width: 3rem;
-    border: none;
 }
 
 .menu__input {
@@ -32,9 +22,39 @@
 }
 
 .menu__input::-webkit-input-placeholder {
-    color:black;
+    color: var(--border-color);
 }
 
 menu__input:-moz-placeholder {
-    color:black;
+    color: var(--border-color);
+}
+
+.menu__submit {
+    background-size: 50% 2px, 2px 50%;
+    background: linear-gradient(#000, #000) linear-gradient(#000, #000) no-repeat center;
+}
+
+
+@media screen and (min-width: 800px) {
+    .menu__submit {
+        height: 3rem;
+        width: 3rem;
+        border: none;
+    }
+
+    .menu__new-page-form:hover {
+        background-color: white;
+    }
+
+    .menu__submit:hover {
+        background-color: white;
+    }
+}
+
+@media screen and (max-width: 799px) {
+    .menu__submit {
+        height: 2em;
+        width: 2em;
+        border: none;
+    }
 }

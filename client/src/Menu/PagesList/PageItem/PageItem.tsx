@@ -41,8 +41,9 @@ export const PageItem: React.FC<{ page: PageData; icons: EmojiData[]; updatePage
   return (
     <a key={page._id} className="page-item" onClick={setPage}>
       <div className="page-item__content content">
-        <div onClick={enablePicker}>{chosenEmoji && <div className="content__icon">{chosenEmoji.emoji}</div>}</div>
-        {pickerEnabled && <PageIconPicker onEmojiClick={onEmojiClick} />}
+        <div onClick={enablePicker}>{chosenEmoji &&
+        <span className="content__icon" aria-label={chosenEmoji.emoji}>{chosenEmoji.emoji}</span>}</div>
+        {pickerEnabled && <PageIconPicker onEmojiClick={onEmojiClick}/>}
         <span className="content__title">{page.title}</span>
       </div>
     </a>

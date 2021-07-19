@@ -91,7 +91,7 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => 
     });
     setItems({ isLoading: items.isLoading, data: newList });
     try {
-      await putFetcher(`image/${id}`, JSON.stringify({url: imageUrl}));
+      await putFetcher(`image/${id}`, JSON.stringify({ url: imageUrl }));
     } catch {
       throw Error("Updating item with new image was not successfull.");
     }

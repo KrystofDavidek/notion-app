@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { Item } from "../../../models/Item";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import {Item} from "../../../models/Item";
+import {BsThreeDotsVertical} from "react-icons/bs";
 import dayjs from "dayjs";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -15,27 +15,27 @@ export const ItemModal: React.FC<{ item: Item; onDelete: any; addImage: any }> =
   const [urlInputShow, setUrlInputShow] = useState(false);
   const [url, setUrl] = useState("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleDelete = () => {
-    setShow(false);
-    confirmAlert({
-      title: "Confirm to delete",
-      message: "Are you sure to delete this note?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => onDelete(item._id),
-        },
-        {
-          label: "No",
-          onClick: () => {
-            return;
-          },
-        },
-      ],
-    });
-  };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const handleDelete = () => {
+        setShow(false);
+        confirmAlert({
+          title: "Confirm to delete",
+          message: "Are you sure to delete this note?",
+          buttons: [
+            {
+              label: "Yes",
+              onClick: () => onDelete(item._id),
+            },
+            {
+              label: "No",
+              onClick: () => {
+                return;
+              },
+            },
+          ],
+        });
+    };
 
   const showImageUrlInput = () => {
     urlInputShow ? setUrlInputShow(false) : setUrlInputShow(true);
@@ -68,9 +68,6 @@ export const ItemModal: React.FC<{ item: Item; onDelete: any; addImage: any }> =
             <span className="modal__bold-text">Last modificated: </span>
             {item.modified_at ? dayjs(item.modified_at).format("DD/MM/YYYY") : "Note was not modificated yet"}
           </p>
-          {/* <p>
-            <span className="modal__bold-text">Modified by:</span> {item}
-          </p> */}
         </Modal.Body>
         <Modal.Footer className="modal__footer">
           <Button variant="secondary" onClick={handleClose}>

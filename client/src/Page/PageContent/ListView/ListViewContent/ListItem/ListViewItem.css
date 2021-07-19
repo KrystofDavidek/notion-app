@@ -7,7 +7,16 @@
   font-size: 22px;
 }
 
-.item__text:before {
+.itemInputEdit {
+  border: none;
+  border-color: transparent;
+  background: transparent;
+  border-style:none;
+  outline-width: 0;
+
+}
+
+.item_checkOn_text:before {
     content:"• ";
 }
 
@@ -20,4 +29,8 @@
   width: 10rem;
   resize: both;
   overflow: auto;
+}
+
+.item_text{
+  flex-grow: 1;
 }

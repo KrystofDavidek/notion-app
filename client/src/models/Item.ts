@@ -15,4 +15,5 @@ export interface Item {
   created_at: number;
   modified_at: number | null;
   deleted_at: number | null;
+  imageURL: string;
 }

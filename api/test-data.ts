@@ -55,9 +55,3 @@ export const createIcon = (emojiData: EmojiData) => {
     activeSkinTone: emojiData.activeSkinTone,
   };
 };
-
-export const createImage = (imageUrl: string) => {
-  return {
-    url: imageUrl
-  }
-}

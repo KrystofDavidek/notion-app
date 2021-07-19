@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
-import { createNote, createPage, createUser, createIcon, createImage } from "./test-data";
+import { createNote, createPage, createUser, createIcon } from "./test-data";
 
 const app = express();
 const port = 5000;
@@ -361,22 +361,19 @@ app.get("/icon/:id", async (req, res) => {
   }
 });
 
-//  Create new image
-app.post("/image/:url/:noteId", async (req, res) => {
+// Update note image url
+app.put("/image/:noteId", async (req, res) => {
   const db = client.db("notiondb");
-  const newImage = createImage(req.params.url);
   try {
-    const result = await db.collection("NoteImage").insertOne(newImage);
-    const image = result.ops[0];
     await db.collection("Note").updateOne(
       { _id: new ObjectId(req.params.noteId) },
       {
-        $set: { imageId: image.id },
+        $set: { imageURL: req.body.url },
       }
     );  
-    res.send("OK");
+    res.send(req.body);
   } catch (err) {
-    res.status(400).json({error: "Image was NOT inserted succesfully"});
+    res.status(400).json({error: "Image url was not updated succesfully"});
   }
 });
 

@@ -1,32 +1,41 @@
 .Board {
     display: flex;
     flex-direction: column;
-    background-color: #D8EDD4;
+    background-color: var(--page-content-background);
     border-radius: 0.5rem;
-    border: 0.1rem black solid;
+    border: 0.1rem var(--border-color) solid;
     flex-grow: 1;
+    min-width: 30%;
 }
 
 .Board__Label-To-do, .Board__Label-Doing, .Board__Label-Done {
     border-radius: 0.5rem;
     align-self: center;
     padding: 0.1rem 1rem 0.1rem 1rem;
-    border: 0.1rem black solid;
+    border: 0.1rem var(--border-color) solid;
     margin: 1rem;
 }
 
 .Board__Label-To-do {
-    background-color: pink;
+    background-color: var(--todo-label);
 }
 
 .Board__Label-Doing {
-    background-color: #D1D0D0;
+    background-color: var(--primary-item-background);
 }
 
 .Board__Label-Done {
-    background-color: greenyellow;
+    background-color: var(--done-label);
 }
 
 .board {
     overflow: auto;
+}
+
+@media screen and (max-width: 799px) {
+    .Board {
+        background-color: transparent;
+        border: none;
+    }
+
 }

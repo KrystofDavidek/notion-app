@@ -5,7 +5,7 @@ import { ItemCheck } from "./ItemCheck/ItemCheck";
 import "./ListViewItem.css";
 import {useRecoilState} from "recoil";
 import {itemsState} from "../../../../../store/atoms";
-import {useDetectClickOutside} from "react-detect-click-outside";
+//import {useDetectClickOutside} from "react-detect-click-outside";
 import {putFetcher} from "../../../../../utils/fetcher";
 
 export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => void; onDelete: any; checkboxesOn: boolean}> = (
@@ -41,7 +41,7 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => 
     }
 
 
-    const ref = useDetectClickOutside({ onTriggered: () => setEditable(false) });
+    //const ref = useDetectClickOutside({ onTriggered: () => setEditable(false) });
 
     if (editable){
         const exitEditableAfterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -63,7 +63,7 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => 
                 role="textbox"
                 contentEditable
                 onKeyDown={exitEditableAfterKey}
-                ref={ref}
+                //ref={ref}
             >
                 {text}
                 </span></React.Fragment>;
@@ -75,7 +75,7 @@ export const ListViewItem: React.FC<{ item: Item; handleCheck: (_id: string) => 
                 role="textbox"
                 contentEditable
                 onKeyDown={exitEditableAfterKey}
-                ref={ref}
+                //ref={ref}
             >
             {text}
         </span>;

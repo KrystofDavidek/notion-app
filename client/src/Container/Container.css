@@ -1,9 +1,25 @@
-.notion-container {
-  display: grid;
-  grid-template-areas: "menu pages";
-  grid-template-rows: 100%;
-  height: 100vh;
-  grid-template-columns: 20% auto;
-  margin: 0 !important;
-  padding: 0 !important;
+@media screen and (min-width: 800px) {
+  .notion-container {
+    display: grid;
+    grid-template-areas: "menu pages";
+    grid-template-rows: 100%;
+    height: 100vh;
+    grid-template-columns: 20% auto;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+
+@media screen and (max-width: 799px) {
+  .notion-container {
+    display: grid;
+    grid-template-areas: "pages";
+    grid-template-rows: 100%;
+    height: 100vh;
+    grid-template-columns: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
 }

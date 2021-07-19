@@ -1,7 +1,7 @@
 .menu {
     display: flex;
     flex-direction: column;
-    background-color: #A0E494;
+    background-color: var(--primary-highlight);
     border: black solid 0.1em;
     border-radius: 0 0.5em 0.5em 0;
 }
@@ -14,6 +14,30 @@
     gap: 1rem;
 }
 
-.menu__page-icon{
+.menu__page-icon {
     height: 3rem;
+}
+
+@media screen and (max-width: 799px) {
+    .menu {
+        display: flex;
+        display: none;
+
+        flex-direction: column;
+        background-color: var(--plain-white);
+        border: black solid 0.1em;
+        border-radius: 0 0.5em 0.5em 0;
+    }
+
+    .menu--hidden {
+        display: none;
+    }
+
+    .menu__header {
+        display: none;
+    }
+
+    .menu__page-icon {
+        display: none;
+    }
 }

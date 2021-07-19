@@ -1,16 +1,16 @@
 .note {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #e5e5e5;
-  align-items: center;
-  border-radius: 0.5rem;
-  border: 0.1rem black solid;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  word-wrap: break-word;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #e5e5e5;
+    align-items: center;
+    border-radius: 0.5rem;
+    border: 0.1rem var(--border-color) solid;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 p {

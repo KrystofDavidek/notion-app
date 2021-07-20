@@ -14,7 +14,7 @@
 @media screen and (max-width: 799px) {
   .notion-container {
     display: grid;
-    grid-template-areas: "pages";
+    grid-template-areas: "menu pages";
     grid-template-rows: 100%;
     height: 100vh;
     grid-template-columns: auto;

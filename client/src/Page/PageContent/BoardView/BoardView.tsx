@@ -53,7 +53,7 @@ export const BoardView = () => {
 
   return (
       <div className="page__content">
-        <span className="page-type">Board view</span>
+        <span className="page__type">Board view</span>
         <hr className="horizontal-line"/>
         <div className="board-container page__content">
           {boards.map((board) => (

@@ -3,13 +3,23 @@
     flex-direction: row;
     justify-content: space-evenly;
     gap: 1rem;
+    margin-top: 2em;
     flex-grow: 1;
     height: 70vh;
-    overflow-x: scroll;
 }
 
-.page-type {
+.page__type {
     display: none;
+}
+
+.page__line {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    .horizontal-line {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 799px) {
@@ -19,10 +29,16 @@
 
     .board-container {
         justify-content: space-between;
+        margin-top: 0;
     }
 
-    .page-type {
+    .page__line {
+        display: inline;
+    }
+
+    .page__type {
         display: inline;
         margin-left: 1em;
+        font-size: 1.5em;
     }
 }

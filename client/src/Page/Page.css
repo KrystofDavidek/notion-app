@@ -168,7 +168,7 @@ input:checked + .slider:before {
     }
 
     .page__title {
-        font-size: 4rem;
+        font-size: 3rem;
         margin-left: 2rem;
     }
 

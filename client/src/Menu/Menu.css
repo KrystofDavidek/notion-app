@@ -21,8 +21,6 @@
 @media screen and (max-width: 799px) {
     .menu {
         display: flex;
-        display: none;
-
         flex-direction: column;
         background-color: var(--plain-white);
         border: black solid 0.1em;

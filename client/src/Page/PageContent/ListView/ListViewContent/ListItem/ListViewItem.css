@@ -29,8 +29,9 @@
   width: 10rem;
   resize: both;
   overflow: auto;
+  margin-right: 2em;
 }
 
-.item_text{
-  flex-grow: 1;
+.item_text {
+  margin: 0 auto 0 2em;
 }

@@ -1,4 +1,4 @@
-# PB138 Project - Notion 
+# Application similar to a Notion app 
 
 ## Project requirements - one of 
 ```
